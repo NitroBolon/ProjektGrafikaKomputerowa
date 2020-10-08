@@ -21,19 +21,21 @@ namespace GraphicEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+        public EditorInstance editor;
         public MainWindow()
         {
             InitializeComponent();
+            editor = new EditorInstance(Canva);
         }
 
         private void Undo_Click(object sender, RoutedEventArgs e)
         {
-            ModeLabel.Content = "-";
+            ModeLabel.Content = "Undo";
         }
 
         private void Redo_Click(object sender, RoutedEventArgs e)
         {
-            ModeLabel.Content = "-";
+            ModeLabel.Content = "Redo";
         }
 
         private void Move_Click(object sender, RoutedEventArgs e)
@@ -49,31 +51,37 @@ namespace GraphicEditor
         private void Circle_Click(object sender, RoutedEventArgs e)
         {
             ModeLabel.Content = "Okrąg (ręcznie)";
+
+            editor.AddCircle(new Objects.Point(50,50),50);
         }
 
         private void Rectangle_Click(object sender, RoutedEventArgs e)
         {
             ModeLabel.Content = "Prostokąt (ręcznie)";
+
+            editor.AddRectangle(new Objects.Point(100, 100), new Objects.Point(200,200), new Objects.Point(100,100));
         }
 
         private void Line_Click(object sender, RoutedEventArgs e)
         {
             ModeLabel.Content = "Linia (ręcznie)";
+
+            editor.AddLine(new Objects.Point(75,75), new Objects.Point(150,150));
         }
 
         private void Rectangle_Menu_Click(object sender, RoutedEventArgs e)
         {
-            ModeLabel.Content = "-";
+            ModeLabel.Content = "Prostokąt (programowo)";
         }
 
         private void Circle_Menu_Click(object sender, RoutedEventArgs e)
         {
-            ModeLabel.Content = "-";
+            ModeLabel.Content = "Okrąg (programowo)";
         }
 
         private void Line_Menu_Click(object sender, RoutedEventArgs e)
         {
-            ModeLabel.Content = "-";
+            ModeLabel.Content = "Line (programowo)";
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
