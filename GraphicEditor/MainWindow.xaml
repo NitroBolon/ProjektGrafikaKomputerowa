@@ -1,0 +1,62 @@
+﻿<Window x:Class="GraphicEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicEditor"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        MinHeight="350" MinWidth="500" WindowStartupLocation="CenterScreen">
+    <Grid Background="Aquamarine">
+        <Menu Margin="10,0,10,10" VerticalAlignment="Top">
+            <MenuItem Header="_Plik">
+                <Separator />
+                <MenuItem Header="_Exit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Obiekt">
+                <MenuItem Header="_Linia" Click="Line_Menu_Click"/>
+                <MenuItem Header="_Okrąg" Click="Circle_Menu_Click"/>
+                <MenuItem Header="_Prostokąt" Click="Rectangle_Menu_Click"/>
+            </MenuItem>
+            <Label>Tryb pracy:</Label>
+            <Label x:Name="ModeLabel">-</Label>
+        </Menu>
+        <DockPanel Height="60" VerticalAlignment="Top" Margin="10,40,10,0" Background="White">
+            <Grid Margin="0,0,10,0">
+                <Button Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Undo_Click">
+                    <Image Source="Resources/undo.png"/>
+                </Button>
+                <Button Width="25" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="Redo_Click">
+                    <Image Source="Resources/redo.png"/>
+                </Button>
+            </Grid>
+            <Grid Margin="0,0,10,0">
+                <Button Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Circle_Click">
+                    <Image Source="Resources/circle.png"/>
+                </Button>
+                <Button Width="25" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="Rectangle_Click">
+                    <Image Source="/rectangle.png"/>
+                </Button>
+            </Grid>
+            <Grid Margin="0,0,10,0">
+                <Button Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Line_Click">
+                    <Image Source="Resources/line.png"/>
+                </Button>
+                <Button Width="25" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="Resize_Click">
+                    <Image Source="Resources/resize.png"/>
+                </Button>
+            </Grid>
+            <Grid Margin="0,0,10,0">
+                <Button Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Move_Click">
+                    <Image Source="Resources/move.png"/>
+                </Button>
+                <!--<Button Width="25" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left"></Button>-->
+            </Grid>
+
+        </DockPanel>
+        <Border BorderBrush="Black" BorderThickness="2" Margin="10,110,10,10">
+            <Canvas x:Name="Canva" Background="Pink" Margin="0,0,0,0"/>
+        </Border>
+
+    </Grid>
+</Window>

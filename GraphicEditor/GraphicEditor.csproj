@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="rectangle.png" />
+    <None Remove="Resources\circle.png" />
+    <None Remove="Resources\line.png" />
+    <None Remove="Resources\move.png" />
+    <None Remove="Resources\rectangle.png" />
+    <None Remove="Resources\redo.png" />
+    <None Remove="Resources\resize.png" />
+    <None Remove="Resources\undo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="rectangle.png" />
+    <Resource Include="Resources\circle.png" />
+    <Resource Include="Resources\line.png" />
+    <Resource Include="Resources\move.png" />
+    <Resource Include="Resources\rectangle.png" />
+    <Resource Include="Resources\redo.png" />
+    <Resource Include="Resources\resize.png" />
+    <Resource Include="Resources\undo.png" />
+  </ItemGroup>
+
+</Project>
