@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GraphicEditor.Objects
 {
-    class Point
+    public class Point
     {
-        private int x { get; set; }
-        private int y { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
 
         public Point() { }
         public Point(int x, int y)
