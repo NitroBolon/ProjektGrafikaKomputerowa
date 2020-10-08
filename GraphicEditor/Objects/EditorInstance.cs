@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -59,6 +58,11 @@ namespace GraphicEditor.Objects
 
             rectangle.SetValue(Canvas.LeftProperty, (double)center.x);
             rectangle.SetValue(Canvas.TopProperty, (double)center.y);
+        }
+
+        public UIElement GetLastElement()
+        {
+            return canva.Children[canva.Children.Count-1];
         }
     }
 }
