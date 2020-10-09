@@ -1,8 +1,9 @@
-﻿using GraphicEditor.Objects;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace GraphicEditor
@@ -12,13 +13,12 @@ namespace GraphicEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        public EditorInstance editor;
         public string mode = "";
+        int step = 1;
 
         public MainWindow()
         {
             InitializeComponent();
-            editor = new EditorInstance(Canva);
         }
 
         private void Undo_Click(object sender, RoutedEventArgs e)
@@ -92,24 +92,100 @@ namespace GraphicEditor
 
         private void Canva_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            System.Windows.Point p = e.GetPosition(this);
-            double x = p.X;
-            double y = p.Y;
-            
+            var point = e.GetPosition(this.Canva);
+            double x = point.X;
+            double y = point.Y;
+
             switch (mode)
             {
                 case "circle":
                     {
-                        editor.AddCircle(new Objects.Point((int)x, (int)y-100),1);
+                        if (step == 1)
+                        {
+                            Ellipse circle = new Ellipse()
+                            {
+                                Width = 2,
+                                Height = 2,
+                                Stroke = Brushes.Black,
+                                StrokeThickness = 6
+                            };
+                            circle.SetValue(Canvas.LeftProperty, x);
+                            circle.SetValue(Canvas.TopProperty, y);
+                            Canva.Children.Add(circle);
+
+                            step = 2;
+                        } else
+                        {
+                            Ellipse c = (Ellipse)Canva.Children[Canva.Children.Count - 1];
+                            var centerX = c.GetValue(Canvas.LeftProperty);
+                            var centerY = c.GetValue(Canvas.TopProperty);
+                            var radius = Math.Sqrt(Math.Pow((double)centerX - x, 2)+ Math.Pow((double)centerY - y, 2));
+                            c.SetValue(Canvas.WidthProperty, (object)(radius*2));
+                            c.SetValue(Canvas.HeightProperty, c.GetValue(WidthProperty));
+                            c.SetValue(Canvas.LeftProperty, (object)Math.Abs((double)c.GetValue(Canvas.LeftProperty) - radius));
+                            c.SetValue(Canvas.TopProperty, (object)Math.Abs((double)c.GetValue(Canvas.TopProperty) - radius));
+
+                            step = 1;
+                        }
                     }break;
                 case "line":
                     {
+                        if (step == 1)
+                        {
+                            Line line = new Line()
+                            {
+                                X1 = x,
+                                X2 = x+2,
+                                Y1 = y,
+                                Y2 = y+2,
+                                Stroke = Brushes.Black,
+                                StrokeThickness = 3
+                            };
+                            Canva.Children.Add(line);
 
-                    }break;
+                            step = 2;
+                        }
+                        else
+                        {
+                            Line l = (Line)Canva.Children[Canva.Children.Count - 1];
+                            l.X2 = x;
+                            l.Y2 = y;
+
+                            step = 1;
+                        }
+                    }
+                    break;
                 case "rectangle":
                     {
+                        if (step == 1)
+                        {
+                            Rectangle rectangle = new Rectangle()
+                            {
+                                Width = 2,
+                                Height = 2,
+                                Stroke = Brushes.Black,
+                                StrokeThickness = 3
+                            };
+                            rectangle.SetValue(Canvas.LeftProperty, x);
+                            rectangle.SetValue(Canvas.TopProperty, y);
+                            rectangle.SetValue(Canvas.RightProperty, x);
+                            rectangle.SetValue(Canvas.BottomProperty, y);
+                            Canva.Children.Add(rectangle);
 
-                    }break;
+                            step = 2;
+                        }
+                        else
+                        {
+                            Rectangle r = (Rectangle)Canva.Children[Canva.Children.Count - 1];
+                            r.SetValue(Canvas.BottomProperty,y);//1 case
+                            r.SetValue(Canvas.RightProperty, x);
+                            r.SetValue(Canvas.WidthProperty, (object)((double)r.GetValue(Canvas.RightProperty)-(double)r.GetValue(Canvas.LeftProperty)));
+                            r.SetValue(Canvas.HeightProperty, (object)((double)r.GetValue(Canvas.TopProperty) - (double)r.GetValue(Canvas.BottomProperty)));
+
+                            step = 1;
+                        }
+                    }
+                    break;
                 case "move":
                     {
 
@@ -178,24 +254,7 @@ namespace GraphicEditor
             {
                 case "circle":
                     {
-                        //try
-                        //{
-                        if (Canva.Children.Count > 0)
-                        {
-                            int tmp = Convert.ToInt32(editor.GetLastElement().GetValue(Canvas.LeftProperty));
-                            if (System.Windows.Input.Mouse.LeftButton == MouseButtonState.Pressed)
-                            {
-                                editor.GetLastElement().SetValue(WidthProperty, Math.Abs(x - tmp));
-                                editor.GetLastElement().SetValue(HeightProperty, Math.Abs(x - tmp));
-                                editor.GetLastElement().SetValue(Canvas.TopProperty, (double)Math.Abs(Convert.ToInt32(editor.GetLastElement().GetValue(Canvas.TopProperty))- Convert.ToInt32(editor.GetLastElement().GetValue(WidthProperty))/2));
-                                editor.GetLastElement().SetValue(Canvas.LeftProperty, (double)Math.Abs(Convert.ToInt32(editor.GetLastElement().GetValue(Canvas.TopProperty)) - Convert.ToInt32(editor.GetLastElement().GetValue(WidthProperty)) / 2));
-                            }
-                        }
-                        //}
-                        //catch 
-                        //{
-                        //    MessageBox.Show("Task failed successfully");
-                        //};
+                        
                     }
                     break;
                 case "line":
