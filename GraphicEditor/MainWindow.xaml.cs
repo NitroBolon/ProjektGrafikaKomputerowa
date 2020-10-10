@@ -15,6 +15,9 @@ namespace GraphicEditor
     {
         public string mode = "";
         int step = 1;
+        Line l = null;
+        Ellipse c = null;
+        Rectangle r = null;
 
         public MainWindow()
         {
@@ -95,20 +98,22 @@ namespace GraphicEditor
                             Canva.Children.Add(circle);
 
                             step = 2;
-                        } else
+                        }
+                        else
                         {
                             Ellipse c = (Ellipse)Canva.Children[Canva.Children.Count - 1];
                             var centerX = c.GetValue(Canvas.LeftProperty);
                             var centerY = c.GetValue(Canvas.TopProperty);
-                            var radius = Math.Sqrt(Math.Pow((double)centerX - x, 2)+ Math.Pow((double)centerY - y, 2));
-                            c.SetValue(Canvas.WidthProperty, (object)(radius*2));
+                            var radius = Math.Sqrt(Math.Pow((double)centerX - x, 2) + Math.Pow((double)centerY - y, 2));
+                            c.SetValue(Canvas.WidthProperty, (object)(radius * 2));
                             c.SetValue(Canvas.HeightProperty, c.GetValue(WidthProperty));
                             c.SetValue(Canvas.LeftProperty, (object)Math.Abs((double)c.GetValue(Canvas.LeftProperty) - radius));
                             c.SetValue(Canvas.TopProperty, (object)Math.Abs((double)c.GetValue(Canvas.TopProperty) - radius));
 
                             step = 1;
                         }
-                    }break;
+                    }
+                    break;
                 case "line":
                     {
                         if (step == 1)
@@ -116,9 +121,9 @@ namespace GraphicEditor
                             Line line = new Line()
                             {
                                 X1 = x,
-                                X2 = x+2,
+                                X2 = x + 2,
                                 Y1 = y,
-                                Y2 = y+2,
+                                Y2 = y + 2,
                                 Stroke = Brushes.Black,
                                 StrokeThickness = 3
                             };
@@ -163,21 +168,21 @@ namespace GraphicEditor
                             double widthP = (double)r.GetValue(Canvas.WidthProperty);
                             double heightP = (double)r.GetValue(Canvas.HeightProperty);
 
-                            if (x>=leftP && y>=topP) //2nd quarter
+                            if (x >= leftP && y >= topP) //2nd quarter
                             {
                                 r.SetValue(Canvas.BottomProperty, y);
                                 r.SetValue(Canvas.RightProperty, x);
                                 r.SetValue(Canvas.WidthProperty, (object)(Math.Abs((double)r.GetValue(Canvas.RightProperty) - (double)r.GetValue(Canvas.LeftProperty))));
                                 r.SetValue(Canvas.HeightProperty, (object)(Math.Abs((double)r.GetValue(Canvas.TopProperty) - (double)r.GetValue(Canvas.BottomProperty))));
                             }
-                            else if(x<leftP && y>=topP) //3rd quarter
+                            else if (x < leftP && y >= topP) //3rd quarter
                             {
                                 r.SetValue(Canvas.BottomProperty, y);
                                 r.SetValue(Canvas.LeftProperty, x);
                                 r.SetValue(Canvas.WidthProperty, (object)(Math.Abs((double)r.GetValue(Canvas.RightProperty) - (double)r.GetValue(Canvas.LeftProperty))));
                                 r.SetValue(Canvas.HeightProperty, (object)(Math.Abs((double)r.GetValue(Canvas.TopProperty) - (double)r.GetValue(Canvas.BottomProperty))));
                             }
-                            else if (x>=leftP && y<topP) //1st quarter
+                            else if (x >= leftP && y < topP) //1st quarter
                             {
                                 r.SetValue(Canvas.TopProperty, y);
                                 r.SetValue(Canvas.RightProperty, x);
@@ -198,47 +203,36 @@ namespace GraphicEditor
                     break;
                 case "move":
                     {
-
-                    }
-                    break;
-                case "resize":
-                    {
-
-                    }
-                    break;
-                default:
-                    {
-
-                    }break;
-            }
-        }
-
-        private void Canva_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var point = e.GetPosition(this.Canva);
-            double x = point.X;
-            double y = point.Y;
-
-            switch (mode)
-            {
-                case "circle":
-                    {
-                        
-                    }
-                    break;
-                case "line":
-                    {
-
-                    }
-                    break;
-                case "rectangle":
-                    {
-
-                    }
-                    break;
-                case "move":
-                    {
-
+                        foreach (UIElement shape in Canva.Children)
+                        {
+                            if (shape.GetType() == l.GetType())
+                            {
+                                if (shape.IsMouseOver)
+                                {
+                                    l = (Line)shape;
+                                    c = null;
+                                    r = null;
+                                }
+                            }
+                            else if (shape.GetType() == c.GetType())
+                            {
+                                if (shape.IsMouseOver)
+                                {
+                                    c = (Ellipse)shape;
+                                    l = null;
+                                    r = null;
+                                }
+                            }
+                            else
+                            {
+                                if (shape.IsMouseOver)
+                                {
+                                    r = (Rectangle)shape;
+                                    c = null;
+                                    l = null;
+                                }
+                            }
+                        }
                     }
                     break;
                 case "resize":
@@ -264,7 +258,7 @@ namespace GraphicEditor
             {
                 case "circle":
                     {
-                        
+
                     }
                     break;
                 case "line":
@@ -279,7 +273,18 @@ namespace GraphicEditor
                     break;
                 case "move":
                     {
+                        if (l != null)
+                        {
 
+                        }
+                        else if (r != null)
+                        {
+
+                        }
+                        else 
+                        {
+
+                        }
                     }
                     break;
                 case "resize":
@@ -299,7 +304,7 @@ namespace GraphicEditor
         {
             DrawingParameters parameters = new DrawingParameters((double)Canva.ActualWidth, (double)Canva.ActualHeight);
             parameters.ShowDialog();
-            if (Application.Current.Properties["type"]!=null)
+            if (Application.Current.Properties["type"] != null)
             {
                 DefinedObject x = new DefinedObject(Convert.ToInt32(Application.Current.Properties["type"]), Convert.ToDouble(Application.Current.Properties["sx1"]), Convert.ToDouble(Application.Current.Properties["sy1"]), Convert.ToDouble(Application.Current.Properties["sx2"]), Convert.ToDouble(Application.Current.Properties["sy2"]));
                 switch (Application.Current.Properties["type"].ToString())
