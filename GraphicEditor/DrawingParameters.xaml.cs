@@ -18,6 +18,7 @@ namespace GraphicEditor
     public partial class DrawingParameters : Window
     {
         int maxW, maxH, sx1, sy1, sx2, sy2;
+
         public DrawingParameters(double canvaWidth, double canvaHeight)
         {
             InitializeComponent();
@@ -55,13 +56,20 @@ namespace GraphicEditor
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Properties["type"] = lista.SelectedIndex;
+            Application.Current.Properties["sx1"] = sx1;
+            Application.Current.Properties["sy1"] = sy1;
+            Application.Current.Properties["sx2"] = sx2;
+            Application.Current.Properties["sy2"] = sy2;
+            this.DialogResult = true;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Properties["type"] = null;
+            this.DialogResult = true;
         }
+
         private void DownX1_Click(object sender, RoutedEventArgs e)
         {
             if (sx1 > 0) sx1--;

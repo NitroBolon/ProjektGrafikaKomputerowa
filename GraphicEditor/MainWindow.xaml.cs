@@ -66,24 +66,6 @@ namespace GraphicEditor
             //editor.AddLine(new Objects.Point(75,75), new Objects.Point(150,150));
         }
 
-        private void Rectangle_Menu_Click(object sender, RoutedEventArgs e)
-        {
-            ModeLabel.Content = "-";
-            mode = "";
-        }
-
-        private void Circle_Menu_Click(object sender, RoutedEventArgs e)
-        {
-            ModeLabel.Content = "-";
-            mode = "";
-        }
-
-        private void Line_Menu_Click(object sender, RoutedEventArgs e)
-        {
-            ModeLabel.Content = "-";
-            mode = "";
-        }
-
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -317,6 +299,17 @@ namespace GraphicEditor
         {
             DrawingParameters parameters = new DrawingParameters((double)Canva.ActualWidth, (double)Canva.ActualHeight);
             parameters.ShowDialog();
+            if (Application.Current.Properties["type"]!=null)
+            {
+                DefinedObject x = new DefinedObject(Convert.ToInt32(Application.Current.Properties["type"]), Convert.ToDouble(Application.Current.Properties["sx1"]), Convert.ToDouble(Application.Current.Properties["sy1"]), Convert.ToDouble(Application.Current.Properties["sx2"]), Convert.ToDouble(Application.Current.Properties["sy2"]));
+                switch (Application.Current.Properties["type"].ToString())
+                {
+                    case "1": Canva.Children.Add(x.DrawLine()); break;
+                    case "2": Canva.Children.Add(x.DrawEllipse()); break;
+                    case "3": Canva.Children.Add(x.DrawRectangle()); break;
+                }
+            }
+            Application.Current.Properties["type"] = "";
         }
     }
 }
