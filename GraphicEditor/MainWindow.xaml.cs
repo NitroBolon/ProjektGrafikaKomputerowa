@@ -177,10 +177,39 @@ namespace GraphicEditor
                         else
                         {
                             Rectangle r = (Rectangle)Canva.Children[Canva.Children.Count - 1];
-                            r.SetValue(Canvas.BottomProperty,y);//1 case
-                            r.SetValue(Canvas.RightProperty, x);
-                            r.SetValue(Canvas.WidthProperty, (object)((double)r.GetValue(Canvas.RightProperty)-(double)r.GetValue(Canvas.LeftProperty)));
-                            r.SetValue(Canvas.HeightProperty, (object)((double)r.GetValue(Canvas.TopProperty) - (double)r.GetValue(Canvas.BottomProperty)));
+                            double leftP = (double)r.GetValue(Canvas.LeftProperty);
+                            double topP = (double)r.GetValue(Canvas.TopProperty);
+                            double widthP = (double)r.GetValue(Canvas.WidthProperty);
+                            double heightP = (double)r.GetValue(Canvas.HeightProperty);
+
+                            if (x>=leftP && y>=topP) //2nd quarter
+                            {
+                                r.SetValue(Canvas.BottomProperty, y);
+                                r.SetValue(Canvas.RightProperty, x);
+                                r.SetValue(Canvas.WidthProperty, (object)(Math.Abs((double)r.GetValue(Canvas.RightProperty) - (double)r.GetValue(Canvas.LeftProperty))));
+                                r.SetValue(Canvas.HeightProperty, (object)(Math.Abs((double)r.GetValue(Canvas.TopProperty) - (double)r.GetValue(Canvas.BottomProperty))));
+                            }
+                            else if(x<leftP && y>=topP) //3rd quarter
+                            {
+                                r.SetValue(Canvas.BottomProperty, y);
+                                r.SetValue(Canvas.LeftProperty, x);
+                                r.SetValue(Canvas.WidthProperty, (object)(Math.Abs((double)r.GetValue(Canvas.RightProperty) - (double)r.GetValue(Canvas.LeftProperty))));
+                                r.SetValue(Canvas.HeightProperty, (object)(Math.Abs((double)r.GetValue(Canvas.TopProperty) - (double)r.GetValue(Canvas.BottomProperty))));
+                            }
+                            else if (x>=leftP && y<topP) //1st quarter
+                            {
+                                r.SetValue(Canvas.TopProperty, y);
+                                r.SetValue(Canvas.RightProperty, x);
+                                r.SetValue(Canvas.WidthProperty, (object)(Math.Abs((double)r.GetValue(Canvas.RightProperty) - (double)r.GetValue(Canvas.LeftProperty))));
+                                r.SetValue(Canvas.HeightProperty, (object)(Math.Abs((double)r.GetValue(Canvas.TopProperty) - (double)r.GetValue(Canvas.BottomProperty))));
+                            }
+                            else //4th quarter
+                            {
+                                r.SetValue(Canvas.TopProperty, y);
+                                r.SetValue(Canvas.LeftProperty, x);
+                                r.SetValue(Canvas.WidthProperty, (object)(Math.Abs((double)r.GetValue(Canvas.RightProperty) - (double)r.GetValue(Canvas.LeftProperty))));
+                                r.SetValue(Canvas.HeightProperty, (object)(Math.Abs((double)r.GetValue(Canvas.TopProperty) - (double)r.GetValue(Canvas.BottomProperty))));
+                            }
 
                             step = 1;
                         }
