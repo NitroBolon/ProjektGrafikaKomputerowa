@@ -1,0 +1,59 @@
+﻿<Window x:Class="GraphicEditor.DrawingParameters"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicEditor"
+        mc:Ignorable="d"
+        Title="DrawingParameters" 
+        Height="450" Width="400"
+        MinHeight="450" MinWidth="400"
+        MaxHeight="450" MaxWidth="400">
+    <Grid Margin="10, 10, 10, 10">
+        <ComboBox Height="25" VerticalAlignment="Top" SelectionChanged="ComboBox_SelectionChanged" Name="lista">
+            <ComboBoxItem IsSelected="True">--- Wybierz typ figury ---</ComboBoxItem>
+            <ComboBoxItem>Linia</ComboBoxItem>
+            <ComboBoxItem>Okrąg</ComboBoxItem>
+            <ComboBoxItem>Prostokąt</ComboBoxItem>
+        </ComboBox>
+        <GroupBox Margin="0, 30, 0, 0" Header="Parametry figury" IsEnabled="False" Name="group">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label>Współrzędna X punktu 1</Label>
+                    <Button Name ="dx1b" Click="DownX1b_Click"></Button>
+                    <Button Name ="dx1" Click="DownX1_Click"></Button>
+                    <Label Name="x1"></Label>
+                    <Button Name ="ux1" Click="UpX1_Click"></Button>
+                    <Button Name ="ux1b" Click="UpX1b_Click"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label>Współrzędna Y punktu 1</Label>
+                    <Button Name ="dy1b" Click="DownY1b_Click"></Button>
+                    <Button Name ="dy1" Click="DownY1_Click"></Button>
+                    <Label Name="y1"></Label>
+                    <Button Name ="uy1" Click="UpY1_Click"></Button>
+                    <Button Name ="uy1b" Click="UpY1b_Click"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label>Współrzędna X punktu 2</Label>
+                    <Button Name ="dx2b" Click="DownX2b_Click"></Button>
+                    <Button Name ="dx2" Click="DownX2_Click"></Button>
+                    <Label Name="x2"></Label>
+                    <Button Name ="ux2" Click="UpX2_Click"></Button>
+                    <Button Name ="ux2b" Click="UpX2b_Click"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label>Współrzędna Y punktu 2</Label>
+                    <Button Name ="dy2b" Click="DownY2b_Click"></Button>
+                    <Button Name ="dy2" Click="DownY2_Click"></Button>
+                    <Label Name="y2"></Label>
+                    <Button Name ="uy2" Click="UpY2_Click"></Button>
+                    <Button Name ="uy2b" Click="UpY2b_Click"></Button>
+                </StackPanel>
+                <Button Click="OK_Click">OK</Button>
+                <Button Click="Cancel_Click">Anuluj</Button>
+                <Label Name="Tips"></Label>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>

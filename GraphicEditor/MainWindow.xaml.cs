@@ -25,7 +25,7 @@ namespace GraphicEditor
         {
             ModeLabel.Content = "-";
             mode = "";
-            Canva.Children.Remove(Canva.Children[Canva.Children.Count - 1]);
+            //Canva.Children.Remove(Canva.Children[Canva.Children.Count - 1]);
         }
 
         private void Redo_Click(object sender, RoutedEventArgs e)
@@ -50,7 +50,6 @@ namespace GraphicEditor
         {
             ModeLabel.Content = "Okrąg (ręcznie)";
             mode = "circle";
-            //editor.AddCircle(new Objects.Point(50,50),50);
         }
 
         private void Rectangle_Click(object sender, RoutedEventArgs e)
@@ -234,9 +233,9 @@ namespace GraphicEditor
 
         private void Canva_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            System.Windows.Point p = e.GetPosition(this);
-            double x = p.X;
-            double y = p.Y;
+            var point = e.GetPosition(this.Canva);
+            double x = point.X;
+            double y = point.Y;
 
             switch (mode)
             {
@@ -275,9 +274,9 @@ namespace GraphicEditor
 
         private void Canva_MouseMove(object sender, MouseEventArgs e)
         {
-            System.Windows.Point p = e.GetPosition(this);
-            double x = p.X;
-            double y = p.Y;
+            var point = e.GetPosition(this.Canva);
+            double x = point.X;
+            double y = point.Y;
 
             switch (mode)
             {
@@ -312,6 +311,12 @@ namespace GraphicEditor
                     }
                     break;
             }
+        }
+
+        private void DefineObject_Click(object sender, RoutedEventArgs e)
+        {
+            DrawingParameters parameters = new DrawingParameters((double)Canva.ActualWidth, (double)Canva.ActualHeight);
+            parameters.ShowDialog();
         }
     }
 }

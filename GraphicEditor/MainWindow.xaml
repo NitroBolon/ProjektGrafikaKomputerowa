@@ -13,10 +13,7 @@
                 <Separator />
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
-            <MenuItem Header="_Obiekt">
-                <MenuItem Header="_Linia" Click="Line_Menu_Click"/>
-                <MenuItem Header="_Okrąg" Click="Circle_Menu_Click"/>
-                <MenuItem Header="_Prostokąt" Click="Rectangle_Menu_Click"/>
+            <MenuItem Header="_Rysuj obiekt" Click="DefineObject_Click">
             </MenuItem>
             <Label>Tryb pracy:</Label>
             <Label x:Name="ModeLabel">-</Label>
