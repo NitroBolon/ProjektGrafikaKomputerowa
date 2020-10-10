@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="rectangle.png" />
     <None Remove="Resources\circle.png" />
     <None Remove="Resources\line.png" />
     <None Remove="Resources\move.png" />
@@ -18,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="rectangle.png" />
     <Resource Include="Resources\circle.png" />
     <Resource Include="Resources\line.png" />
     <Resource Include="Resources\move.png" />

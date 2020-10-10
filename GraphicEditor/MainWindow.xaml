@@ -35,7 +35,7 @@
                     <Image Source="Resources/circle.png"/>
                 </Button>
                 <Button Width="25" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="Rectangle_Click">
-                    <Image Source="/rectangle.png"/>
+                    <Image Source="Resources/rectangle.png"/>
                 </Button>
             </Grid>
             <Grid Margin="0,0,10,0">
@@ -55,7 +55,10 @@
 
         </DockPanel>
         <Border BorderBrush="Black" BorderThickness="2" Margin="10,110,10,10">
-            <Canvas x:Name="Canva" Background="Pink" Margin="0,0,0,0"/>
+            <Canvas x:Name="Canva" Background="Pink" Margin="0,0,0,0" 
+                    MouseLeftButtonDown="Canva_MouseLeftButtonDown" 
+                    MouseLeftButtonUp="Canva_MouseLeftButtonUp"
+                    MouseMove="Canva_MouseMove"/>
         </Border>
 
     </Grid>
