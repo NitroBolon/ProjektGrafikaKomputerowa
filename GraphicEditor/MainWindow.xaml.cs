@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace GraphicEditor
@@ -202,36 +201,66 @@ namespace GraphicEditor
                     }
                     break;
                 case "move":
-                    {
-                        foreach (UIElement shape in Canva.Children)
+                    {//e.OriginalSource - returns clicked Child
+                        if (step == 1)
                         {
-                            if (shape.GetType() == l.GetType())
+                            foreach (UIElement shape in Canva.Children)
                             {
-                                if (shape.IsMouseOver)
+                                if (shape.GetType() == typeof(Line))
                                 {
-                                    l = (Line)shape;
-                                    c = null;
-                                    r = null;
+                                    if (shape.IsMouseOver)
+                                    {
+                                        l = (Line)shape;
+                                        c = null;
+                                        r = null;
+                                        step = 2;
+                                    }
+                                }
+                                else if (shape.GetType() == typeof(Ellipse))
+                                {
+                                    if (shape.IsMouseOver)
+                                    {
+                                        c = (Ellipse)shape;
+                                        l = null;
+                                        r = null;
+                                        step = 2;
+                                    }
+                                }
+                                else if (shape.GetType() == typeof(Rectangle))
+                                {
+                                    if (shape.IsMouseOver)
+                                    {
+                                        r = (Rectangle)shape;
+                                        c = null;
+                                        l = null;
+                                        step = 2;
+                                    }
                                 }
                             }
-                            else if (shape.GetType() == c.GetType())
+                        }
+                        else if (step == 2)
+                        {
+                            if(l != null)
                             {
-                                if (shape.IsMouseOver)
-                                {
-                                    c = (Ellipse)shape;
-                                    l = null;
-                                    r = null;
-                                }
-                            }
-                            else
+                                double parA = (double)l.GetValue(Line.X2Property) - (double)l.GetValue(Line.X1Property);
+                                double parB = (double)l.GetValue(Line.Y2Property) - (double)l.GetValue(Line.Y1Property);
+                                l.SetValue(Line.X1Property, x);
+                                l.SetValue(Line.Y1Property, y);
+                                l.SetValue(Line.X2Property, x + parA);
+                                l.SetValue(Line.Y2Property, y + parB);
+                            } 
+                            else if (r != null)
                             {
-                                if (shape.IsMouseOver)
-                                {
-                                    r = (Rectangle)shape;
-                                    c = null;
-                                    l = null;
-                                }
+                                r.SetValue(Canvas.LeftProperty, x);
+                                r.SetValue(Canvas.TopProperty, y);
                             }
+                            else if (c != null)
+                            {
+                                c.SetValue(Canvas.LeftProperty, x);
+                                c.SetValue(Canvas.TopProperty, y);
+                            }
+
+                            step = 1;
                         }
                     }
                     break;
@@ -273,18 +302,7 @@ namespace GraphicEditor
                     break;
                 case "move":
                     {
-                        if (l != null)
-                        {
 
-                        }
-                        else if (r != null)
-                        {
-
-                        }
-                        else 
-                        {
-
-                        }
                     }
                     break;
                 case "resize":
