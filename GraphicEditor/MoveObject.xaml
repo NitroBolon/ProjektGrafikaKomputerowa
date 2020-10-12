@@ -1,0 +1,38 @@
+﻿<Window x:Class="GraphicEditor.MoveObject"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicEditor"
+        mc:Ignorable="d"
+        Title="MoveObject"
+        Height="450" Width="400"
+        MinHeight="450" MinWidth="400"
+        MaxHeight="450" MaxWidth="400">
+    <Grid Margin="10, 10, 10, 10">
+        <GroupBox Margin="0, 30, 0, 0" Header="Parametry przesunięcia">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label>Przesuń o </Label>
+                    <Button Name="dxb" Click="DownXb_Click"></Button>
+                    <Button Name="dx" Click="DownX_Click"></Button>
+                    <Label Name="x"></Label>
+                    <Button Name ="ux" Click="UpX_Click"></Button>
+                    <Button Name ="uxb" Click="UpXb_Click"></Button>
+                    <Label> w prawo</Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label>Przesuń o</Label>
+                    <Button Name ="dyb" Click="DownYb_Click"></Button>
+                    <Button Name ="dy" Click="DownY_Click"></Button>
+                    <Label Name ="y"></Label>
+                    <Button Name ="uy" Click="UpY_Click"></Button>
+                    <Button Name ="uyb" Click="UpYb_Click"></Button>
+                    <Label>w dół</Label>
+                </StackPanel>
+                <Button Margin="0, 10, 0, 0" Click="OK_Click">OK</Button>
+                <Button Click="Cancel_Click">Anuluj</Button>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -277,45 +278,10 @@ namespace GraphicEditor
             }
         }
 
+        // unused so far
         private void Canva_MouseMove(object sender, MouseEventArgs e)
         {
-            var point = e.GetPosition(this.Canva);
-            double x = point.X;
-            double y = point.Y;
 
-            switch (mode)
-            {
-                case "circle":
-                    {
-
-                    }
-                    break;
-                case "line":
-                    {
-
-                    }
-                    break;
-                case "rectangle":
-                    {
-
-                    }
-                    break;
-                case "move":
-                    {
-
-                    }
-                    break;
-                case "resize":
-                    {
-
-                    }
-                    break;
-                default:
-                    {
-
-                    }
-                    break;
-            }
         }
 
         private void DefineObject_Click(object sender, RoutedEventArgs e)
@@ -333,6 +299,69 @@ namespace GraphicEditor
                 }
             }
             Application.Current.Properties["type"] = "";
+        }
+
+        private void Canva_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var point = e.GetPosition(this.Canva);
+            double x = point.X;
+            double y = point.Y;
+
+            foreach (UIElement shape in Canva.Children)
+            {
+                if (shape.GetType() == typeof(Line))
+                {
+                    if (shape.IsMouseOver)
+                    {
+                        l = (Line)shape;
+                        c = null;
+                        r = null;
+                    }
+                }
+                else if (shape.GetType() == typeof(Ellipse))
+                {
+                    if (shape.IsMouseOver)
+                    {
+                        c = (Ellipse)shape;
+                        l = null;
+                        r = null;
+                    }
+                }
+                else if (shape.GetType() == typeof(Rectangle))
+                {
+                    if (shape.IsMouseOver)
+                    {
+                        r = (Rectangle)shape;
+                        c = null;
+                        l = null;
+                    }
+                }
+
+                MoveObject moveObject = new MoveObject();
+                moveObject.ShowDialog();
+
+                int parX = Convert.ToInt32(Application.Current.Properties["x"]);
+                int parY = Convert.ToInt32(Application.Current.Properties["y"]);
+
+                if (l != null)
+                {
+                    l.SetValue(Line.X1Property, (double)(Convert.ToInt32(GetValue(Line.X1Property)) + parX));
+                    l.SetValue(Line.Y1Property, (double)(Convert.ToInt32(GetValue(Line.Y1Property)) + parY));
+                    l.SetValue(Line.X2Property, (double)(Convert.ToInt32(GetValue(Line.X2Property)) + parX));
+                    l.SetValue(Line.Y2Property, (double)(Convert.ToInt32(GetValue(Line.Y2Property)) + parY));
+                }
+                else if (r != null)
+                {
+                    r.SetValue(Canvas.LeftProperty, (double)(Convert.ToInt32(GetValue(Canvas.LeftProperty)) + parX));
+                    r.SetValue(Canvas.TopProperty, (double)(Convert.ToInt32(GetValue(Canvas.TopProperty)) + parY));
+                }
+                else if (c != null)
+                {
+                    c.SetValue(Canvas.LeftProperty, (double)(Convert.ToInt32(GetValue(Canvas.LeftProperty)) + parX));
+                    c.SetValue(Canvas.TopProperty, (double)(Convert.ToInt32(GetValue(Canvas.TopProperty)) + parY));
+                }
+
+            }
         }
     }
 }

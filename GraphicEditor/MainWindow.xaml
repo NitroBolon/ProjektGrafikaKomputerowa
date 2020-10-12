@@ -13,7 +13,8 @@
                 <Separator />
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
-            <MenuItem Header="_Rysuj obiekt" Click="DefineObject_Click">
+            <MenuItem Header="_Obiekty">
+                <MenuItem Header="_Rysuj kształt" Click="DefineObject_Click"></MenuItem>
             </MenuItem>
             <Label>Tryb pracy:</Label>
             <Label x:Name="ModeLabel">-</Label>
@@ -54,6 +55,7 @@
         <Border BorderBrush="Black" BorderThickness="2" Margin="10,110,10,10">
             <Canvas x:Name="Canva" Background="Pink" Margin="0,0,0,0" 
                     MouseLeftButtonDown="Canva_MouseLeftButtonDown" 
+                    MouseRightButtonDown="Canva_MouseRightButtonDown"
                     MouseMove="Canva_MouseMove"/>
         </Border>
 
