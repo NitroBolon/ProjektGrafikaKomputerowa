@@ -22,10 +22,10 @@
         <DockPanel Height="60" VerticalAlignment="Top" Margin="10,40,10,0" Background="White">
             <Grid Margin="0,0,10,0">
                 <Button Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Undo_Click">
-                    <Image Source="Resources/undo.png"/>
+                    <!--<Image Source="Resources/undo.png"/>-->NF
                 </Button>
                 <Button Width="25" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="Redo_Click">
-                    <Image Source="Resources/redo.png"/>
+                    <!--<Image Source="Resources/redo.png"/>-->NF
                 </Button>
             </Grid>
             <Grid Margin="0,0,10,0">
