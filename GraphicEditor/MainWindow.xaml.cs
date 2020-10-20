@@ -202,7 +202,7 @@ namespace GraphicEditor
                     }
                     break;
                 case "move":
-                    {//e.OriginalSource - returns clicked Child
+                    {
                         if (step == 1)
                         {
                             foreach (UIElement shape in Canva.Children)
@@ -241,7 +241,7 @@ namespace GraphicEditor
                         }
                         else if (step == 2)
                         {
-                            if(l != null)
+                            if (l != null)
                             {
                                 double parA = (double)l.GetValue(Line.X2Property) - (double)l.GetValue(Line.X1Property);
                                 double parB = (double)l.GetValue(Line.Y2Property) - (double)l.GetValue(Line.Y1Property);
@@ -249,7 +249,7 @@ namespace GraphicEditor
                                 l.SetValue(Line.Y1Property, y);
                                 l.SetValue(Line.X2Property, x + parA);
                                 l.SetValue(Line.Y2Property, y + parB);
-                            } 
+                            }
                             else if (r != null)
                             {
                                 r.SetValue(Canvas.LeftProperty, x);
@@ -257,8 +257,8 @@ namespace GraphicEditor
                             }
                             else if (c != null)
                             {
-                                c.SetValue(Canvas.LeftProperty, x);
-                                c.SetValue(Canvas.TopProperty, y);
+                                c.SetValue(Canvas.LeftProperty, x - (double)c.GetValue(Canvas.WidthProperty) / 2);
+                                c.SetValue(Canvas.TopProperty, y - (double)c.GetValue(Canvas.HeightProperty) / 2);
                             }
 
                             step = 1;
@@ -267,7 +267,75 @@ namespace GraphicEditor
                     break;
                 case "resize":
                     {
+                        if (step == 1)
+                        {
+                            foreach (UIElement shape in Canva.Children)
+                            {
+                                if (shape.GetType() == typeof(Line))
+                                {
+                                    if (shape.IsMouseOver)
+                                    {
+                                        l = (Line)shape;
+                                        c = null;
+                                        r = null;
+                                        step = 2;
+                                    }
+                                }
+                                else if (shape.GetType() == typeof(Ellipse))
+                                {
+                                    if (shape.IsMouseOver)
+                                    {
+                                        c = (Ellipse)shape;
+                                        l = null;
+                                        r = null;
+                                        step = 2;
+                                    }
+                                }
+                                else if (shape.GetType() == typeof(Rectangle))
+                                {
+                                    if (shape.IsMouseOver)
+                                    {
+                                        r = (Rectangle)shape;
+                                        c = null;
+                                        l = null;
+                                        step = 2;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (l != null)
+                            {
+                                l.SetValue(Line.X2Property, x);
+                                l.SetValue(Line.Y2Property, y);
+                            }
+                            else if (r != null)
+                            {
+                                if ((double)r.GetValue(Canvas.LeftProperty) > x || (double)r.GetValue(Canvas.TopProperty) > y)
+                                {
 
+                                }
+                                else
+                                {
+                                    double width = x - (double)r.GetValue(Canvas.LeftProperty);
+                                    double height = y - (double)r.GetValue(Canvas.TopProperty);
+
+                                    r.SetValue(Canvas.WidthProperty, width);
+                                    r.SetValue(Canvas.HeightProperty, height);
+                                    r.SetValue(Canvas.RightProperty, width + (double)r.GetValue(Canvas.LeftProperty));
+                                    r.SetValue(Canvas.BottomProperty, height + (double)r.GetValue(Canvas.TopProperty));
+                                }
+                            }
+                            else if (c != null)
+                            {
+                                double rad = Math.Sqrt(Math.Pow(x - (double)c.GetValue(Canvas.LeftProperty), 2) + Math.Pow(y - (double)c.GetValue(Canvas.TopProperty), 2));
+                                c.SetValue(Canvas.WidthProperty, rad);
+                                c.SetValue(Canvas.HeightProperty, rad);
+                            }
+
+                            step = 1;
+                        }
                     }
                     break;
                 default:
@@ -276,12 +344,6 @@ namespace GraphicEditor
                     }
                     break;
             }
-        }
-
-        // unused so far
-        private void Canva_MouseMove(object sender, MouseEventArgs e)
-        {
-
         }
 
         private void DefineObject_Click(object sender, RoutedEventArgs e)
@@ -303,6 +365,9 @@ namespace GraphicEditor
 
         private void Canva_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            var parX = (double)0;
+            var parY = (double)0;
+
             foreach (UIElement shape in Canva.Children)
             {
                 if (shape.GetType() == typeof(Line))
@@ -333,34 +398,44 @@ namespace GraphicEditor
                     }
                 }
 
-                if (r!=null || l!=null || c!=null) {
+                if (r != null || l != null || c != null)
+                {
                     MoveObject moveObject = new MoveObject();
                     moveObject.ShowDialog();
                 }
 
-                var parX = Convert.ToDouble(Application.Current.Properties["x"]);
-                var parY = Convert.ToDouble(Application.Current.Properties["y"]);
+                parX = Convert.ToDouble(Application.Current.Properties["xx"]);
+                parY = Convert.ToDouble(Application.Current.Properties["yy"]);
 
                 if (l != null)
                 {
-                    l.SetValue(Line.X1Property, (double)(Convert.ToDouble(GetValue(Line.X1Property)) + parX));
-                    l.SetValue(Line.Y1Property, (double)(Convert.ToDouble(GetValue(Line.Y1Property)) + parY));
-                    l.SetValue(Line.X2Property, (double)(Convert.ToDouble(GetValue(Line.X2Property)) + parX));
-                    l.SetValue(Line.Y2Property, (double)(Convert.ToDouble(GetValue(Line.Y2Property)) + parY));
+                    var t1 = (double)(l.GetValue(Line.X2Property));
+                    var t2 = (double)(l.GetValue(Line.Y2Property));
+
+                    l.SetValue(Line.X2Property, t1 + parX);
+                    l.SetValue(Line.Y2Property, t2 + parY);
                 }
                 else if (r != null)
                 {
-                    r.SetValue(Canvas.LeftProperty, (double)(Convert.ToDouble(GetValue(Canvas.LeftProperty)) + parX));
-                    r.SetValue(Canvas.TopProperty, (double)(Convert.ToDouble(GetValue(Canvas.TopProperty)) + parY));
-                    r.SetValue(Canvas.RightProperty, (double)(Convert.ToDouble(GetValue(Canvas.RightProperty)) + parX));
-                    r.SetValue(Canvas.BottomProperty, (double)(Convert.ToDouble(GetValue(Canvas.BottomProperty)) + parY));
+                    try
+                    {
+                        r.SetValue(Canvas.WidthProperty, (Convert.ToDouble(r.GetValue(Canvas.WidthProperty)) + parX));
+                        r.SetValue(Canvas.HeightProperty, (Convert.ToDouble(r.GetValue(Canvas.HeightProperty)) + parY));
+                        r.SetValue(Canvas.RightProperty, (Convert.ToDouble(r.GetValue(Canvas.RightProperty)) + parX));
+                        r.SetValue(Canvas.BottomProperty, (Convert.ToDouble(r.GetValue(Canvas.BottomProperty)) + parY));
+                    }
+                    catch { }
                 }
                 else if (c != null)
                 {
-                    c.SetValue(Canvas.LeftProperty, (double)(Convert.ToDouble(GetValue(Canvas.LeftProperty)) + parX));
-                    c.SetValue(Canvas.TopProperty, (double)(Convert.ToDouble(GetValue(Canvas.TopProperty)) + parY));
-                    c.SetValue(Canvas.RightProperty, (double)(Convert.ToDouble(GetValue(Canvas.RightProperty)) + parX));
-                    c.SetValue(Canvas.BottomProperty, (double)(Convert.ToDouble(GetValue(Canvas.BottomProperty)) + parY));
+                    try
+                    {
+                        c.SetValue(Canvas.WidthProperty, (Convert.ToDouble(c.GetValue(Canvas.WidthProperty)) + parX));
+                        c.SetValue(Canvas.HeightProperty, (Convert.ToDouble(c.GetValue(Canvas.HeightProperty)) + parX));
+                        c.SetValue(Canvas.RightProperty, (Convert.ToDouble(c.GetValue(Canvas.RightProperty)) + parX));
+                        c.SetValue(Canvas.BottomProperty, (Convert.ToDouble(c.GetValue(Canvas.BottomProperty)) + parX));
+                    }
+                    catch { }
                 }
 
                 l = null;

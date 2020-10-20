@@ -10,28 +10,26 @@
         MinHeight="450" MinWidth="400"
         MaxHeight="450" MaxWidth="400">
     <Grid Margin="10, 10, 10, 10">
-        <GroupBox Margin="0, 30, 0, 0" Header="Parametry przesunięcia">
+        <GroupBox Margin="0, 150, 0, 0" Header="Parametry zmiany rozmiaru">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Label>Przesuń o </Label>
-                    <Button Name="dxb" Click="DownXb_Click"></Button>
-                    <Button Name="dx" Click="DownX_Click"></Button>
-                    <Label Name="x"></Label>
-                    <Button Name ="ux" Click="UpX_Click"></Button>
-                    <Button Name ="uxb" Click="UpXb_Click"></Button>
-                    <Label> w prawo</Label>
+                    <Label>Zmień wartość szerokości/X2/średnicy o</Label>
+                    <Button Name="xdxb" Click="DownxXb_Click"></Button>
+                    <Button Name="xdx" Click="DownxX_Click"></Button>
+                    <Label Name="xx"></Label>
+                    <Button Name ="xux" Click="UpxX_Click"></Button>
+                    <Button Name ="xuxb" Click="UpxXb_Click"></Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label>Przesuń o</Label>
-                    <Button Name ="dyb" Click="DownYb_Click"></Button>
-                    <Button Name ="dy" Click="DownY_Click"></Button>
-                    <Label Name ="y"></Label>
-                    <Button Name ="uy" Click="UpY_Click"></Button>
-                    <Button Name ="uyb" Click="UpYb_Click"></Button>
-                    <Label>w dół</Label>
+                    <Label>Zmień wartość wysokości/Y2 o </Label>
+                    <Button Name ="ydyb" Click="DownyYb_Click"></Button>
+                    <Button Name ="ydy" Click="DownyY_Click"></Button>
+                    <Label Name ="yy"></Label>
+                    <Button Name ="yuy" Click="UpyY_Click"></Button>
+                    <Button Name ="yuyb" Click="UpyYb_Click"></Button>
                 </StackPanel>
-                <Button Margin="0, 10, 0, 0" Click="OK_Click">OK</Button>
-                <Button Click="Cancel_Click">Anuluj</Button>
+                <Button Margin="0, 10, 0, 0" Click="OK_Click2">OK</Button>
+                <Button Click="Cancel_Click2">Anuluj</Button>
             </StackPanel>
         </GroupBox>
     </Grid>

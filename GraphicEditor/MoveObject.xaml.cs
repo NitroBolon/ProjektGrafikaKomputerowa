@@ -7,67 +7,67 @@ namespace GraphicEditor
     /// </summary>
     public partial class MoveObject : Window
     {
-        int sx=0, sy=0;
+        int sx=0, sy=0, xsx=0, ysy=0;
         public MoveObject()
         {
             InitializeComponent();
-            dxb.Content = "<<<"; dx.Content = "<"; x.Content = "0"; ux.Content = ">"; uxb.Content = ">>>";
-            dyb.Content = "<<<"; dy.Content = "<"; y.Content = "0"; uy.Content = ">"; uyb.Content = ">>>";
+            xdxb.Content = "<<<"; xdx.Content = "<"; xx.Content = "0"; xux.Content = ">"; xuxb.Content = ">>>";
+            ydyb.Content = "<<<"; ydy.Content = "<"; yy.Content = "0"; yuy.Content = ">"; yuyb.Content = ">>>";
         }
 
-        private void OK_Click(object sender, RoutedEventArgs e)
+        private void OK_Click2(object sender, RoutedEventArgs e)
         {
-            Application.Current.Properties["x"] = sx;
-            Application.Current.Properties["y"] = sy;
+            Application.Current.Properties["xx"] = xsx.ToString();
+            Application.Current.Properties["yy"] = ysy.ToString();
             this.DialogResult = true;
         }
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        private void Cancel_Click2(object sender, RoutedEventArgs e)
         {
-            Application.Current.Properties["x"] = 0;
-            Application.Current.Properties["y"] = 0;
+            Application.Current.Properties["xx"] = (0).ToString();
+            Application.Current.Properties["yy"] = (0).ToString();
             this.DialogResult = true;
         }
 
-        private void DownX_Click(object sender, RoutedEventArgs e)
+        private void DownxX_Click(object sender, RoutedEventArgs e)
         {
-            sx--;
-            x.Content = sx.ToString();
+            xsx--;
+            xx.Content = xsx.ToString();
         }
-        private void UpX_Click(object sender, RoutedEventArgs e)
+        private void UpxX_Click(object sender, RoutedEventArgs e)
         {
-            sx++;
-            x.Content = sx.ToString();
+            xsx++;
+            xx.Content = xsx.ToString();
         }
-        private void DownY_Click(object sender, RoutedEventArgs e)
+        private void DownyY_Click(object sender, RoutedEventArgs e)
         {
-            sy--;
-            y.Content = sy.ToString();
+            ysy--;
+            yy.Content = ysy.ToString();
         }
-        private void UpY_Click(object sender, RoutedEventArgs e)
+        private void UpyY_Click(object sender, RoutedEventArgs e)
         {
-            sy++;
-            y.Content = sy.ToString();
+            ysy++;
+            yy.Content = ysy.ToString();
         }
-        
-        private void DownXb_Click(object sender, RoutedEventArgs e)
+
+        private void DownxXb_Click(object sender, RoutedEventArgs e)
         {
-            sx -= 10;
-            x.Content = sx.ToString();
+            xsx -= 10;
+            xx.Content = xsx.ToString();
         }
-        private void UpXb_Click(object sender, RoutedEventArgs e)
+        private void UpxXb_Click(object sender, RoutedEventArgs e)
         {
-            sx += 10;
-            x.Content = sx.ToString();
+            xsx += 10;
+            xx.Content = xsx.ToString();
         }
-        private void DownYb_Click(object sender, RoutedEventArgs e)
+        private void DownyYb_Click(object sender, RoutedEventArgs e)
         {
-            sy -= 10;
-            y.Content = sy.ToString();
+            ysy -= 10;
+            yy.Content = ysy.ToString();
         }
-        private void UpYb_Click(object sender, RoutedEventArgs e)
+        private void UpyYb_Click(object sender, RoutedEventArgs e)
         {
-            sy += 10;
-            y.Content = sy.ToString();
+            ysy += 10;
+            yy.Content = ysy.ToString();
         }
     }
 }
