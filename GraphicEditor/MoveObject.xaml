@@ -1,0 +1,36 @@
+﻿<Window x:Class="GraphicEditor.MoveObject"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicEditor"
+        mc:Ignorable="d"
+        Title="MoveObject"
+        Height="450" Width="400"
+        MinHeight="450" MinWidth="400"
+        MaxHeight="450" MaxWidth="400">
+    <Grid Margin="10, 10, 10, 10">
+        <GroupBox Margin="0, 150, 0, 0" Header="Parametry zmiany rozmiaru">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label>Zmień wartość szerokości/X2/średnicy o</Label>
+                    <Button Name="xdxb" Click="DownxXb_Click"></Button>
+                    <Button Name="xdx" Click="DownxX_Click"></Button>
+                    <Label Name="xx"></Label>
+                    <Button Name ="xux" Click="UpxX_Click"></Button>
+                    <Button Name ="xuxb" Click="UpxXb_Click"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label>Zmień wartość wysokości/Y2 o </Label>
+                    <Button Name ="ydyb" Click="DownyYb_Click"></Button>
+                    <Button Name ="ydy" Click="DownyY_Click"></Button>
+                    <Label Name ="yy"></Label>
+                    <Button Name ="yuy" Click="UpyY_Click"></Button>
+                    <Button Name ="yuyb" Click="UpyYb_Click"></Button>
+                </StackPanel>
+                <Button Margin="0, 10, 0, 0" Click="OK_Click2">OK</Button>
+                <Button Click="Cancel_Click2">Anuluj</Button>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>
