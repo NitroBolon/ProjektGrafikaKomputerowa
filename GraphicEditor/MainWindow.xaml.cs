@@ -1,9 +1,15 @@
-﻿using System;
-using System.CodeDom;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace GraphicEditor
@@ -18,6 +24,9 @@ namespace GraphicEditor
         Line l = null;
         Ellipse c = null;
         Rectangle r = null;
+        string filePPM = "";
+        int compLvl = 50;
+        int maxColor = 255;
 
         public MainWindow()
         {
@@ -442,6 +451,333 @@ namespace GraphicEditor
                 r = null;
                 c = null;
             }
+        }
+
+        private void Load_PPM_P3(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PPM Files (*.ppm)|*.ppm";
+            if (openFileDialog.ShowDialog() == true)
+                filePPM = openFileDialog.FileName;
+
+            StreamReader file = new StreamReader(filePPM);
+            string line1, format, line;
+            int width = 0, height = 0, actLine = 1, counter = 0;
+            WriteableBitmap bitmapa = new WriteableBitmap(7000, 7000, 96, 96, PixelFormats.Bgr24, null);
+            bitmapa.Lock();
+
+            Int32Rect rect;
+
+            while ((line1 = file.ReadLine()) != null)
+            {
+                line = RemoveComment(line1);
+                if (line != "" && !line.StartsWith("#"))
+                {
+                    if (counter == 0) // read format
+                    {
+                        try
+                        {
+                            format = line;
+                        }
+                        catch
+                        {
+                            Debug.WriteLine("Blad podczas pobierania formatu pliku");
+                            return;
+                        }
+                    }
+                    else if (counter == 1) // read size
+                    {
+                        try
+                        {
+                            var x = line.Split(" ");
+                            width = Convert.ToInt32(x[0]);
+                            height = Convert.ToInt32(x[1]);
+                        }
+                        catch
+                        {
+                            Debug.WriteLine("Blad podczas pobierania wymiarow obrazu");
+                            return;
+                        }
+                    }
+                    if (counter == 2) // read max color
+                    {
+                        try
+                        {
+                            maxColor = Convert.ToInt32(line);
+                        }
+                        catch
+                        {
+                            Debug.WriteLine("Blad podczas pobierania max koloru");
+                            return;
+                        }
+                    }
+                    else if (counter > 2)
+                    {
+                        try
+                        {
+                            List<string> x = line.Split(" ").ToList();
+                            x = x.Where(w => w != "").ToList();
+
+                            for (int i = 0; i < width; i++)
+                            {
+                                byte[] ColorData = { Convert.ToByte(Convert.ToInt32(x[i * 3]) * 255 / maxColor), Convert.ToByte(Convert.ToInt32(x[i * 3 + 1]) * 255 / maxColor), Convert.ToByte(Convert.ToInt32(x[i * 3 + 2]) * 255 / maxColor), 0 };
+                                rect = new Int32Rect(i + 1, actLine, 1, 1);
+                                var stride = width * 3;
+                                bitmapa.WritePixels(rect, ColorData, stride, 0);
+                            }
+                            actLine++;
+                        }
+                        catch
+                        {
+                            Debug.WriteLine("Blad podczas generowania obrazu");
+                            return;
+                        }
+                    }
+                    counter++;
+                }
+            }
+            bitmapa.Unlock();
+            Image image = new Image();
+            image.Source = bitmapa;
+            Canva.Children.Add(image);
+        }
+
+        private void Load_PPM_P3_list(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PPM Files (*.ppm)|*.ppm";
+            if (openFileDialog.ShowDialog() == true)
+                filePPM = openFileDialog.FileName;
+            StreamReader file = new StreamReader(filePPM);
+            WriteableBitmap bitmapa = new WriteableBitmap(7000, 7000, 96, 96, PixelFormats.Bgr24, null);
+            int width = 0, height = 0;
+            Int32Rect rect;
+            int counter = 0, cl = 0;
+            string line;
+            string format;
+
+            line = file.ReadLine();
+            line = file.ReadLine();
+            width = Convert.ToInt32(file.ReadLine());
+            height = Convert.ToInt32(file.ReadLine());
+            maxColor = Convert.ToInt32(file.ReadLine());
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    byte[] ColorData = { Convert.ToByte(Convert.ToInt32(file.ReadLine()) / (maxColor > 255 ? 257 : 1)), Convert.ToByte(Convert.ToInt32(file.ReadLine()) / (maxColor > 255 ? 257 : 1)), Convert.ToByte(Convert.ToInt32(file.ReadLine()) / (maxColor > 255 ? 257 : 1)), 0 };
+                    rect = new Int32Rect(j + 1, i + 1, 1, 1);
+                    var stride = width * 3;
+                    bitmapa.WritePixels(rect, ColorData, stride, 0);
+                }
+            }
+
+            Image image = new Image();
+            image.Source = bitmapa;
+            Canva.Children.Add(image);
+        }
+
+        private string RemoveComment(string input)
+        {
+            string result = "";
+            try
+            {
+                var x = input.Split("#");
+                result = x[0];
+            }
+            catch
+            {
+                Debug.WriteLine("Blad podczas usuwania komentarzy");
+            }
+            return result;
+        }
+
+        private void Load_PPM_P6(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PPM Files (*.ppm)|*.ppm";
+            if (openFileDialog.ShowDialog() == true)
+                filePPM = openFileDialog.FileName;
+            BinaryReader br;
+            string v;
+            br = new BinaryReader(new FileStream(filePPM, FileMode.Open));
+            WriteableBitmap bitmapa = new WriteableBitmap(7000, 7000, 96, 96, PixelFormats.Bgr24, null);
+            v = br.ReadString();
+            string[] parameters = v.Split("\n");
+            string[] size = parameters[2].Split(" ");
+            int width = Convert.ToInt32(size[0]);
+            int height = Convert.ToInt32(size[1]);
+            maxColor = 255;
+            var pic = br.ReadBytes(Convert.ToInt32(size[0]) * Convert.ToInt32(size[1]) * 3);
+            Int32Rect rect;
+
+            try
+            {
+                List<byte> x = pic.ToList();
+
+                for (int i = 0; i < height; i++)
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        byte[] ColorData = { Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), 0 };
+                        rect = new Int32Rect(j + 1, i + 1, 1, 1);
+                        var stride = width * 3;
+                        bitmapa.WritePixels(rect, ColorData, stride, 0);
+                    }
+                }
+
+                Image image = new Image();
+                image.Source = bitmapa;
+                Canva.Children.Add(image);
+            }
+            catch
+            {
+                Debug.WriteLine("Blad podczas generowania obrazu");
+                return;
+            }
+
+            br.Close();
+        }
+        private void Load_PPM_P6_c(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PPM Files (*.ppm)|*.ppm";
+            if (openFileDialog.ShowDialog() == true)
+                filePPM = openFileDialog.FileName;
+            BinaryReader br;
+            string v;
+            br = new BinaryReader(new FileStream(filePPM, FileMode.Open));
+            WriteableBitmap bitmapa = new WriteableBitmap(7000, 7000, 96, 96, PixelFormats.Bgr24, null);
+            v = br.ReadString();
+            string[] parameters = v.Split("\n");
+            string[] size = parameters[1].Split(" ");
+            int width = Convert.ToInt32(size[0]);
+            int height = Convert.ToInt32(size[1]);
+            maxColor = 255;
+            var pic = br.ReadBytes(Convert.ToInt32(size[0]) * Convert.ToInt32(size[1]) * 3);
+            Int32Rect rect;
+
+            try
+            {
+                List<byte> x = pic.ToList();
+
+                for (int i = 0; i < height; i++)
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        byte[] ColorData = { Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), 0 };
+                        rect = new Int32Rect(j + 1, i + 1, 1, 1);
+                        var stride = width * 3;
+                        bitmapa.WritePixels(rect, ColorData, stride, 0);
+                    }
+                }
+
+                Image image = new Image();
+                image.Source = bitmapa;
+                Canva.Children.Add(image);
+            }
+            catch
+            {
+                Debug.WriteLine("Blad podczas generowania obrazu");
+                return;
+            }
+
+            br.Close();
+        }
+        private void Load_PPM_P6_list(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PPM Files (*.ppm)|*.ppm";
+            if (openFileDialog.ShowDialog() == true)
+                filePPM = openFileDialog.FileName;
+            BinaryReader br;
+
+            br = new BinaryReader(new FileStream(filePPM, FileMode.Open));
+            WriteableBitmap bitmapa = new WriteableBitmap(8000, 3000, 96, 96, PixelFormats.Bgr24, null);
+            
+            var v = br.ReadString();
+            v = br.ReadString();
+            int width = 0, height = 0;
+            maxColor = 255;
+            Int32Rect rect;
+            width = 7740;
+            height = 2454;
+            var c = br.ReadByte();
+            var pic = br.ReadBytes(width * height * 3);
+            try
+            {
+                List<byte> x = pic.ToList();
+                for (int i = 0; i < height; i++)
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        byte[] ColorData = { Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), Convert.ToByte(Convert.ToInt32(x[i * width + j]) / (maxColor > 255 ? 257 : 1)), 0 };
+                        rect = new Int32Rect(j + 1, i + 1, 1, 1);
+                        var stride = width * 3;
+                        bitmapa.WritePixels(rect, ColorData, stride, 0);
+                    }
+                }
+
+                Image image = new Image();
+                image.Source = bitmapa;
+                Canva.Children.Add(image);
+            }
+            catch
+            {
+                Debug.WriteLine("Blad podczas generowania obrazu");
+                return;
+            }
+
+            br.Close();
+        }
+
+        private void Load_JPEG(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPEG Files (*.jpeg)|*.jpeg|JPG Files (*.jpg)|*.jpg";
+            if (openFileDialog.ShowDialog() == true)
+                filePPM = openFileDialog.FileName;
+
+            BitmapImage bitmapa = new BitmapImage();
+            bitmapa.BeginInit();
+            bitmapa.UriSource = new Uri(filePPM);
+            bitmapa.EndInit();
+            Image image = new Image();
+            image.Source = bitmapa;
+            Canva.Children.Add(image);
+        }
+
+        private void Save_JPEG(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "JPEG File (*.jpeg)|*.jpeg|JPG File (*.jpg)|*.jpg";
+            if (saveFileDialog.ShowDialog() == true)
+                filePPM = saveFileDialog.FileName;
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)Canva.RenderSize.Width,
+                (int)Canva.RenderSize.Height, 96d, 96d, System.Windows.Media.PixelFormats.Default);
+            rtb.Render(Canva);
+            var crop = new CroppedBitmap(rtb, new Int32Rect(0, 0, Convert.ToInt32(Canva.ActualWidth), Convert.ToInt32(Canva.ActualHeight)));
+
+            JpegBitmapEncoder jpgEncoder = new JpegBitmapEncoder();
+            jpgEncoder.QualityLevel = compLvl;
+            jpgEncoder.Frames.Add(BitmapFrame.Create(crop));
+            using (var fs = System.IO.File.OpenWrite(filePPM))
+            {
+                jpgEncoder.Save(fs);
+            }
+        }
+
+        private void LowerLevel(object sender, RoutedEventArgs e)
+        {
+            if (compLvl >= 5) compLvl -= 5;
+            compress.Content = compLvl.ToString();
+        }
+
+        private void HigherLevel(object sender, RoutedEventArgs e)
+        {
+            if (compLvl <= 95) compLvl += 5;
+            compress.Content = compLvl.ToString();
         }
     }
 }

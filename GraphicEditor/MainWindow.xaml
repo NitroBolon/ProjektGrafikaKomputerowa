@@ -10,6 +10,13 @@
     <Grid Background="Gray">
         <Menu Margin="10,0,10,10" VerticalAlignment="Top">
             <MenuItem Header="_Plik">
+                <MenuItem Header="_Load PPM P3 (1,2,4)" Click="Load_PPM_P3"/>
+                <MenuItem Header="_Load PPM P3 list" Click="Load_PPM_P3_list"/>
+                <MenuItem Header="_Load PPM P6 (3,5)" Click="Load_PPM_P6"/>
+                <MenuItem Header="_Load PPM P6 list com (6)" Click="Load_PPM_P6_c"/>
+                <MenuItem Header="_Load PPM P6 list 2" Click="Load_PPM_P6_list"/>
+                <MenuItem Header="_Load JPEG" Click="Load_JPEG"/>
+                <MenuItem Header="_Save JPEG" Click="Save_JPEG"/>
                 <Separator />
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
@@ -18,6 +25,9 @@
             </MenuItem>
             <Label>Tryb pracy:</Label>
             <Label x:Name="ModeLabel">-</Label>
+            <Button Click="LowerLevel">-5</Button>
+            <Label Name="compress">50</Label>
+            <Button Click="HigherLevel">+5</Button>
         </Menu>
         <DockPanel Height="60" VerticalAlignment="Top" Margin="10,40,10,0" Background="LightGray">
             <Grid Margin="0,0,10,0">
