@@ -552,9 +552,7 @@ namespace GraphicEditor
             WriteableBitmap bitmapa = new WriteableBitmap(7000, 7000, 96, 96, PixelFormats.Bgr24, null);
             int width = 0, height = 0;
             Int32Rect rect;
-            int counter = 0, cl = 0;
             string line;
-            string format;
 
             line = file.ReadLine();
             line = file.ReadLine();
@@ -639,6 +637,7 @@ namespace GraphicEditor
 
             br.Close();
         }
+
         private void Load_PPM_P6_c(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -685,6 +684,7 @@ namespace GraphicEditor
 
             br.Close();
         }
+
         private void Load_PPM_P6_list(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -770,7 +770,7 @@ namespace GraphicEditor
 
         private void LowerLevel(object sender, RoutedEventArgs e)
         {
-            if (compLvl >= 5) compLvl -= 5;
+            if (compLvl >= 6) compLvl -= 5;
             compress.Content = compLvl.ToString();
         }
 
@@ -778,6 +778,18 @@ namespace GraphicEditor
         {
             if (compLvl <= 95) compLvl += 5;
             compress.Content = compLvl.ToString();
+        }
+
+        private void CmykRgb_Click(object sender, RoutedEventArgs e)
+        {
+            CmykRgb parameters = new CmykRgb();
+            parameters.ShowDialog();
+        }
+
+        private void HsvRgb_Click(object sender, RoutedEventArgs e)
+        {
+            HsvRgb parameters = new HsvRgb();
+            parameters.ShowDialog();
         }
     }
 }

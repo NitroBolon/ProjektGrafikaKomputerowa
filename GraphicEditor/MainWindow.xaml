@@ -22,6 +22,8 @@
             </MenuItem>
             <MenuItem Header="_Obiekty">
                 <MenuItem Header="_Rysuj kształt" Click="DefineObject_Click"></MenuItem>
+                <MenuItem Header="_CMYK vs RGB" Click="CmykRgb_Click"></MenuItem>
+                <MenuItem Header="_HsvRgb" Click="HsvRgb_Click"></MenuItem>
             </MenuItem>
             <Label>Tryb pracy:</Label>
             <Label x:Name="ModeLabel">-</Label>

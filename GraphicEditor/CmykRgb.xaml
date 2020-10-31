@@ -1,0 +1,81 @@
+﻿<Window x:Class="GraphicEditor.CmykRgb"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicEditor"
+        mc:Ignorable="d"
+        Title="CmykRgb" Height="490" Width="700">
+    <StackPanel Orientation="Horizontal" Margin="10, 10, 10, 10">
+        <GroupBox Header="Parametry" Width="250" Margin="0, 0, 10, 0">
+            <StackPanel>
+                <GroupBox Header="RGB" Height="180">
+                    <StackPanel>
+                        <StackPanel Margin="10, 0, 10, 10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label>R</Label>
+                                <TextBox TextChanged="rInput_TextChanged" Text="255" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="rInput" Width="50" MaxLength="3"></TextBox>
+                            </StackPanel>
+                            <Slider Value="255" ValueChanged="rSlider_ValueChanged" Name="rSlider" TickFrequency="1" Minimum="0" Maximum="255"></Slider>
+                        </StackPanel>
+                        <StackPanel Margin="10, 0, 10, 10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label>G</Label>
+                                <TextBox TextChanged="gInput_TextChanged"  Text="255" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="gInput" Width="50" MaxLength="3"></TextBox>
+                            </StackPanel>
+                            <Slider Value="255" ValueChanged="gSlider_ValueChanged"  Name="gSlider" TickFrequency="1" Minimum="0" Maximum="255"></Slider>
+                        </StackPanel>
+                        <StackPanel Margin="10, 0, 10, 0">
+                            <StackPanel Orientation="Horizontal">
+                                <Label>B</Label>
+                                <TextBox TextChanged="bInput_TextChanged"  Text="255" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="bInput" Width="50" MaxLength="3"></TextBox>
+                            </StackPanel>
+                            <Slider Value="255" ValueChanged="bSlider_ValueChanged"  Name="bSlider" TickFrequency="1" Minimum="0" Maximum="255"></Slider>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="CMYK" Height="250">
+                    <StackPanel>
+                        <StackPanel Margin="10, 0, 10, 10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label>C</Label>
+                                <TextBox TextChanged="cInput_TextChanged"  Text="0" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="cInput" Width="50" MaxLength="3"></TextBox>
+                                <Label>%</Label>
+                            </StackPanel>
+                            <Slider ValueChanged="cSlider_ValueChanged"  Name="cSlider" TickFrequency="1" Minimum="0" Maximum="100"></Slider>
+                        </StackPanel>
+                        <StackPanel Margin="10, 0, 10, 10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label>M</Label>
+                                <TextBox TextChanged="mInput_TextChanged"  Text="0" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="mInput" Width="50" MaxLength="3"></TextBox>
+                                <Label>%</Label>
+                            </StackPanel>
+                            <Slider ValueChanged="mSlider_ValueChanged"  Name="mSlider" TickFrequency="1" Minimum="0" Maximum="100"></Slider>
+                        </StackPanel>
+                        <StackPanel Margin="10, 0, 10, 10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label>Y</Label>
+                                <TextBox TextChanged="yInput_TextChanged"  Text="0" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="yInput" Width="50" MaxLength="3"></TextBox>
+                                <Label>%</Label>
+                            </StackPanel>
+                            <Slider ValueChanged="ySlider_ValueChanged"  Name="ySlider" TickFrequency="1" Minimum="0" Maximum="100"></Slider>
+                        </StackPanel>
+                        <StackPanel Margin="10, 0, 10, 0">
+                            <StackPanel Orientation="Horizontal">
+                                <Label>K</Label>
+                                <TextBox TextChanged="kInput_TextChanged"  Text="0" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="kInput" Width="50" MaxLength="3"></TextBox>
+                                <Label>%</Label>
+                            </StackPanel>
+                            <Slider ValueChanged="kSlider_ValueChanged"  Name="kSlider" TickFrequency="1" Minimum="0" Maximum="100"></Slider>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Podgląd" Width="420">
+            <Border BorderBrush="Black" BorderThickness="2" Margin="50,50,50,50">
+                <Canvas Name="colorView" Margin="0,0,0,0" ClipToBounds="true"/>
+            </Border>
+        </GroupBox>
+    </StackPanel>
+</Window>
