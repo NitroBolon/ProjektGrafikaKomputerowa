@@ -60,7 +60,7 @@ namespace GraphicEditor
             if (cInput != null && cSlider != null && editFlag)
             {
                 C = Math.Round(Convert.ToDouble(cInput.Text), 3);
-
+                cSlider.Value = C;
                 CmykToRgb();
                 UpdateRgb();
             }
@@ -70,7 +70,7 @@ namespace GraphicEditor
             if (mInput != null && mSlider != null && editFlag)
             {
                 M = Math.Round(Convert.ToDouble(mInput.Text), 3);
-
+                mSlider.Value = M;
                 CmykToRgb();
                 UpdateRgb();
             }
@@ -80,7 +80,7 @@ namespace GraphicEditor
             if (yInput != null && ySlider != null && editFlag)
             {
                 Y = Math.Round(Convert.ToDouble(yInput.Text), 3);
-
+                ySlider.Value = Y;
                 CmykToRgb();
                 UpdateRgb();
             }
@@ -90,7 +90,7 @@ namespace GraphicEditor
             if (kInput != null && kSlider != null && editFlag)
             {
                 K = Math.Round(Convert.ToDouble(kInput.Text), 3);
-
+                kSlider.Value = K;
                 CmykToRgb();
                 UpdateRgb();
             }
