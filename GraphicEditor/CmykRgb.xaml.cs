@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -11,7 +13,11 @@ namespace GraphicEditor
     /// </summary>
     public partial class CmykRgb : Window
     {
-        int C = 0, M = 0, Y = 0, K = 0, R = 255, G = 255, B = 255;
+        double C = 0.0, M = 0.0, Y = 0.0, K = 0.0, t2;
+        byte R = 255, G = 255, B = 255, t1;
+
+        Color color;
+        SolidColorBrush brush;
 
         public CmykRgb()
         {
@@ -24,11 +30,11 @@ namespace GraphicEditor
             e.Handled = regex.IsMatch(e.Text);
         }
 
-
         private void rInput_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (rSlider != null && rInput != null)
-                if (Convert.ToInt32(rInput.Text) > 255)
+            if (rInput != null && rSlider != null && Byte.TryParse(rInput.Text, out t1))
+            {
+                if (Convert.ToInt32(rInput.Text) > 255 || Convert.ToInt32(rInput.Text) < 1)
                 {
                     rInput.Text = "255";
                     rSlider.Value = 255;
@@ -36,16 +42,18 @@ namespace GraphicEditor
                 }
                 else
                 {
-                    rSlider.Value = Convert.ToInt32(rInput.Text);
-                    R = Convert.ToInt32(rInput.Text);
+                    R = Convert.ToByte(rInput.Text);
+                    rSlider.Value = R;
                 }
-            RgbToCmyk();
+                RgbToCmyk();
+                UpdateCmyk();
+            }
         }
-
         private void gInput_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (gSlider != null && gInput != null)
-                if (Convert.ToInt32(gInput.Text) > 255)
+            if (gInput != null && gSlider != null && Byte.TryParse(gInput.Text, out t1))
+            {
+                if (Convert.ToInt32(gInput.Text) > 255 || Convert.ToInt32(gInput.Text) < 1)
                 {
                     gInput.Text = "255";
                     gSlider.Value = 255;
@@ -53,16 +61,18 @@ namespace GraphicEditor
                 }
                 else
                 {
-                    gSlider.Value = Convert.ToInt32(gInput.Text);
-                    G = Convert.ToInt32(gInput.Text);
+                    G = Convert.ToByte(gInput.Text);
+                    gSlider.Value = G;
                 }
-            RgbToCmyk();
+                RgbToCmyk();
+                UpdateCmyk();
+            }
         }
-
         private void bInput_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (bSlider != null && bInput != null)
-                if (Convert.ToInt32(bInput.Text) > 255)
+            if (bInput != null && bSlider != null && Byte.TryParse(bInput.Text, out t1))
+            {
+                if (Convert.ToInt32(bInput.Text) > 255 || Convert.ToInt32(bInput.Text) < 1)
                 {
                     bInput.Text = "255";
                     bSlider.Value = 255;
@@ -70,196 +80,197 @@ namespace GraphicEditor
                 }
                 else
                 {
-                    bSlider.Value = Convert.ToInt32(bInput.Text);
-                    B = Convert.ToInt32(bInput.Text);
+                    B = Convert.ToByte(bInput.Text);
+                    bSlider.Value = B;
                 }
-            RgbToCmyk();
+                RgbToCmyk();
+                UpdateCmyk();
+            }
         }
 
         private void cInput_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (cSlider != null && cInput != null)
-                if (Convert.ToInt32(cInput.Text) > 100)
-                {
-                    cInput.Text = "100";
-                    cSlider.Value = 100;
-                    C = 100;
-                }
-                else
-                {
-                    cSlider.Value = Convert.ToInt32(cInput.Text);
-                    C = Convert.ToInt32(cInput.Text);
-                }
-            CmykToRgb();
-        }
+            try
+            {
+                C = Convert.ToDouble(cInput.Text);
+                cSlider.Value = (int)(C * 100);
 
+                CmykToRgb();
+                UpdateRgb();
+            }
+            catch { }
+        }
         private void mInput_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (mSlider != null && mInput != null)
-                if (Convert.ToInt32(mInput.Text) > 100)
-                {
-                    mInput.Text = "100";
-                    mSlider.Value = 100;
-                    M = 100;
-                }
-                else
-                {
-                    mSlider.Value = Convert.ToInt32(mInput.Text);
-                    M = Convert.ToInt32(mInput.Text);
-                }
-            CmykToRgb();
-        }
+            try
+            {
+                M = Convert.ToDouble(mInput.Text);
+                mSlider.Value = (int)(M * 100);
 
+                CmykToRgb();
+                UpdateRgb();
+            }
+            catch { }
+        }
         private void yInput_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (ySlider != null && yInput != null)
-                if (Convert.ToInt32(yInput.Text) > 100)
-                {
-                    yInput.Text = "100";
-                    ySlider.Value = 100;
-                    Y = 100;
-                }
-                else
-                {
-                    ySlider.Value = Convert.ToInt32(yInput.Text);
-                    Y = Convert.ToInt32(yInput.Text);
-                }
-            CmykToRgb();
-        }
+            try
+            {
+                Y = Convert.ToDouble(yInput.Text);
+                ySlider.Value = (int)(Y * 100);
 
+                CmykToRgb();
+                UpdateRgb();
+            }
+            catch { }
+        }
         private void kInput_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (kSlider != null && kInput != null)
-                if (Convert.ToInt32(kInput.Text) > 100)
-                {
-                    kInput.Text = "100";
-                    kSlider.Value = 100;
-                    K = 100;
-                }
-                else
-                {
-                    kSlider.Value = Convert.ToInt32(kInput.Text);
-                    K = Convert.ToInt32(kInput.Text);
-                }
-            CmykToRgb();
+            try
+            {
+                Y = Convert.ToDouble(yInput.Text);
+                ySlider.Value = (int)(Y * 100);
+
+                CmykToRgb();
+                UpdateRgb();
+            }
+            catch { }
         }
 
 
         private void rSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (rSlider != null && rInput != null)
+            if (rInput != null && rSlider != null)
             {
-                rInput.Text = rSlider.Value.ToString();
-                R = Convert.ToInt32(rInput.Text);
+                R = Convert.ToByte(rSlider.Value);
+                rInput.Text = Convert.ToInt32(R).ToString();
+
+                RgbToCmyk();
+                UpdateCmyk();
             }
-
-            RgbToCmyk();
         }
-
         private void gSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (gSlider != null && gInput != null)
+            if (gInput != null && gSlider != null)
             {
-                gInput.Text = gSlider.Value.ToString();
-                G = Convert.ToInt32(gInput.Text);
+                G = Convert.ToByte(gSlider.Value);
+                gInput.Text = Convert.ToInt32(G).ToString();
+
+                RgbToCmyk();
+                UpdateCmyk();
             }
-
-            RgbToCmyk();
         }
-
         private void bSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (bSlider != null && bInput != null)
+            if (bInput != null && bSlider != null)
             {
-                bInput.Text = bSlider.Value.ToString();
-                B = Convert.ToInt32(bInput.Text);
-            }
+                B = Convert.ToByte(bSlider.Value);
+                bInput.Text = Convert.ToInt32(B).ToString();
 
-            RgbToCmyk();
+                RgbToCmyk();
+                UpdateCmyk();
+            }
         }
 
         private void cSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (cSlider != null && cInput != null)
+            if (cInput != null && cSlider != null)
             {
-                cInput.Text = cSlider.Value.ToString();
-                C = Convert.ToInt32(cInput.Text);
+                //C = Convert.ToDouble(cSlider.Value);
+                //cInput.Text = C.ToString();
+
+                //CmykToRgb();
+                //UpdateRgb();
             }
-
-            CmykToRgb();
         }
-
         private void mSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (mSlider != null && mInput != null)
+            if (mInput != null && mSlider != null)
             {
-                mInput.Text = mSlider.Value.ToString();
-                M = Convert.ToInt32(mInput.Text);
+                //M = Convert.ToDouble(mSlider.Value);
+                //mInput.Text = M.ToString();
+
+                //CmykToRgb();
+                //UpdateRgb();
             }
-
-            CmykToRgb();
         }
-
         private void ySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (ySlider != null && yInput != null)
+            if (yInput != null && ySlider != null)
             {
-                yInput.Text = ySlider.Value.ToString();
-                Y = Convert.ToInt32(yInput.Text);
+                //Y = Convert.ToDouble(ySlider.Value);
+                //yInput.Text = Y.ToString();
+
+                //CmykToRgb();
+                //UpdateRgb();
             }
-
-            CmykToRgb();
         }
-
         private void kSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (kSlider != null && kInput != null)
+            if (kInput != null && kSlider != null)
             {
-                kInput.Text = kSlider.Value.ToString();
-                K = Convert.ToInt32(kInput.Text);
-            }
+                //K = Convert.ToDouble(kSlider.Value);
+                //kInput.Text = K.ToString();
 
-            CmykToRgb();
+                //CmykToRgb();
+                //UpdateRgb();
+            }
         }
 
+        private void UpdateRgb()
+        {
+            if (rInput != null && gInput != null && bInput != null && rSlider != null && gSlider != null && bSlider != null && colorView != null)
+            {
+                rInput.Text = R.ToString();
+                gInput.Text = G.ToString();
+                bInput.Text = B.ToString();
+                rSlider.Value = (int)R;
+                gSlider.Value = (int)G;
+                bSlider.Value = (int)B;
+                color = Color.FromArgb((byte)255, R, G, B);
+                colorView.Background = brush;
+            }
+        }
+
+        private void UpdateCmyk()
+        {
+            if (cInput != null && mInput != null && yInput != null && kInput != null && cSlider != null && mSlider != null && ySlider != null && kSlider != null && colorView != null)
+            {
+                cInput.Text = C.ToString();
+                mInput.Text = M.ToString();
+                yInput.Text = Y.ToString();
+                kInput.Text = K.ToString();
+                cSlider.Value = C;
+                mSlider.Value = M;
+                ySlider.Value = Y;
+                kSlider.Value = K;
+                color = Color.FromArgb((byte)255, R, G, B);
+                colorView.Background = brush;
+            }
+        }
 
         public void CmykToRgb()
         {
-            R = Convert.ToInt32(255 * (1 - ((float)C / 100)) * (1 - ((float)K / 100)));
-            G = Convert.ToInt32(255 * (1 - ((float)M / 100)) * (1 - ((float)K / 100)));
-            B = Convert.ToInt32(255 * (1 - ((float)Y / 100)) * (1 - ((float)K / 100)));
+            R = Convert.ToByte(255 * (1 - C) * (1 - K));
+            G = Convert.ToByte(255 * (1 - M) * (1 - K));
+            B = Convert.ToByte(255 * (1 - Y) * (1 - K));
 
-            Color color = Color.FromArgb((byte)255, (byte)R, (byte)G, (byte)B);
-            SolidColorBrush brush = new SolidColorBrush(color);
-            if(colorView != null)
-                colorView.Background = brush;
+            color = Color.FromArgb((byte)255, R, G, B);
+            brush = new SolidColorBrush(color);
         }
 
         private void RgbToCmyk()
         {
-            float rf = R / 255F;
-            float gf = G / 255F;
-            float bf = B / 255F;
+            double dr = (double)R / 255;
+            double dg = (double)G / 255;
+            double db = (double)B / 255;
+            K = 1 - Math.Max(Math.Max(dr, dg), db);
+            C = (1 - dr - K) / (1 - K);
+            M = (1 - dg - K) / (1 - K);
+            Y = (1 - db - K) / (1 - K);
 
-            K = (int)ClampCmyk(1 - Math.Max(Math.Max(rf, gf), bf))*100;
-            C = (int)ClampCmyk((1 - rf - ((float)K / 100)) / (1 - ((float)K / 100))) * 100;
-            M = (int)ClampCmyk((1 - gf - ((float)K / 100)) / (1 - ((float)K / 100))) * 100;
-            Y = (int)ClampCmyk((1 - bf - ((float)K / 100)) / (1 - ((float)K / 100))) * 100;
-
-            Color color = Color.FromArgb((byte)255, (byte)R, (byte)G, (byte)B);
-            SolidColorBrush brush = new SolidColorBrush(color);
-            if(colorView != null)
-                colorView.Background = brush;
-        }
-
-        private static float ClampCmyk(float value)
-        {
-            if (value < 0 || float.IsNaN(value))
-            {
-                value = 0;
-            }
-
-            return value;
+            color = Color.FromArgb((byte)255, (byte)R, (byte)G, (byte)B);
+            brush = new SolidColorBrush(color);
         }
     }
 }

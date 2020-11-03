@@ -5,8 +5,186 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GraphicEditor"
         mc:Ignorable="d"
-        Title="HsvRgb" Height="450" Width="800">
+        Title="HsvRgb" Height="700" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <ScrollBar Name="vscroll" 
+            Grid.Row="0" Grid.Column="1"
+            Orientation="Vertical"  
+            Minimum="-180" Maximum="180" 
+            LargeChange="10" SmallChange="1" Value="0" />
+        <ScrollBar Name="hscroll" 
+            Grid.Row="1" Grid.Column="0"
+            Orientation="Horizontal" 
+            Minimum="-180" Maximum="180" 
+            LargeChange="10" SmallChange="1" Value="0" />
+
+        <Viewport3D Margin="4,4,4,4" Grid.Row="0" Grid.Column="0">
+            <ModelVisual3D>
+                <ModelVisual3D.Content>
+                    <Model3DGroup>
+                        <!-- Lights -->
+                        <AmbientLight Color="Gray" />
+                        <DirectionalLight Color="Gray" Direction="1,-2,-3" />
+                        <DirectionalLight Color="Gray" Direction="-1,2,3" />
+
+                        <!--Top 1-->
+                        <GeometryModel3D>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D
+                                    Positions = "-1,1,1     1,1,1       1,1,-1      -1,1,-1"
+                                    TriangleIndices = "0 1 2     2,3,0"
+                                    TextureCoordinates="0,1 1,1 1,0 0,0"
+                                />
+                            </GeometryModel3D.Geometry>
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial>
+                                    <DiffuseMaterial.Brush>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>Resources/1.png</ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </DiffuseMaterial.Brush>
+                                </DiffuseMaterial>
+                            </GeometryModel3D.Material>
+                        </GeometryModel3D>
+
+                        <!--Front 2-->
+                        <GeometryModel3D>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D
+                                    Positions = "-1,-1,1     1,-1,1       1,1,1      -1,1,1"
+                                    TriangleIndices = "0 1 2     2,3,0"
+                                    TextureCoordinates="0,1 1,1 1,0 0,0"
+                                />
+                            </GeometryModel3D.Geometry>
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial>
+                                    <DiffuseMaterial.Brush>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>Resources/2.png</ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </DiffuseMaterial.Brush>
+                                </DiffuseMaterial>
+                            </GeometryModel3D.Material>
+                        </GeometryModel3D>
+
+                        <!--Right 6-->
+                        <GeometryModel3D>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D
+                                    Positions = "1,-1,1     1,-1,-1       1,1,-1      1,1,1"
+                                    TriangleIndices = "0 1 2     2,3,0"
+                                    TextureCoordinates="0,1 1,1 1,0 0,0"
+                                />
+                            </GeometryModel3D.Geometry>
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial>
+                                    <DiffuseMaterial.Brush>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>Resources/6.png</ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </DiffuseMaterial.Brush>
+                                </DiffuseMaterial>
+                            </GeometryModel3D.Material>
+                        </GeometryModel3D>
+
+                        <!--Back-->
+                        <GeometryModel3D x:Name="rgbCubeBack">
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D
+                                    Positions = "1,-1,-1     -1,-1,-1       -1,1,-1      1,1,-1"
+                                    TriangleIndices = "0 1 2     2,3,0"
+                                    TextureCoordinates="0,1 1,1 1,0 0,0"
+                                />
+                            </GeometryModel3D.Geometry>
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial>
+                                    <DiffuseMaterial.Brush>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>Resources/5.png</ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </DiffuseMaterial.Brush>
+                                </DiffuseMaterial>
+                            </GeometryModel3D.Material>
+                        </GeometryModel3D>
+
+                        <!--Left-->
+                        <GeometryModel3D x:Name="rgbCubeLeft">
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D
+                                    Positions = "-1,-1,-1     -1,-1,1       -1,1,1      -1,1,-1"
+                                    TriangleIndices = "0 1 2     2,3,0"
+                                    TextureCoordinates="0,1 1,1 1,0 0,0"
+                                />
+                            </GeometryModel3D.Geometry>
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial>
+                                    <DiffuseMaterial.Brush>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>Resources/3.png</ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </DiffuseMaterial.Brush>
+                                </DiffuseMaterial>
+                            </GeometryModel3D.Material>
+                        </GeometryModel3D>
+
+                        <!--Bottom-->
+                        <GeometryModel3D x:Name="rgbCubeBottom">
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D
+                                    Positions = "1,-1,1     -1,-1,1       -1,-1,-1      1,-1,-1"
+                                    TriangleIndices = "0 1 2     2,3,0"
+                                    TextureCoordinates="0,1 1,1 1,0 0,0"
+                                />
+                            </GeometryModel3D.Geometry>
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial>
+                                    <DiffuseMaterial.Brush>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>Resources/4.png</ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </DiffuseMaterial.Brush>
+                                </DiffuseMaterial>
+                            </GeometryModel3D.Material>
+                        </GeometryModel3D>
+
+                    </Model3DGroup>
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+            <Viewport3D.Camera>
+                <PerspectiveCamera 
+                  Position = "1.5, 1.8, 3"
+                  LookDirection = "-1.5, -2, -3"
+                  UpDirection = "0, 1, 0"
+                  FieldOfView = "60">
+                    <PerspectiveCamera.Transform>
+                        <Transform3DGroup>
+                            <RotateTransform3D>
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D
+                                      Axis="0 1 0" 
+                                      Angle="{Binding ElementName=hscroll, Path=Value}" />
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                            <RotateTransform3D>
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D
+                                      Axis="1 0 0" 
+                                      Angle="{Binding ElementName=vscroll, Path=Value}" />
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                        </Transform3DGroup>
+                    </PerspectiveCamera.Transform>
+                </PerspectiveCamera>
+            </Viewport3D.Camera>
+        </Viewport3D>
     </Grid>
 </Window>

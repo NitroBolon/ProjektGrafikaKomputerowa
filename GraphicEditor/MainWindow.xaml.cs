@@ -463,7 +463,7 @@ namespace GraphicEditor
             StreamReader file = new StreamReader(filePPM);
             string line1, format, line;
             int width = 0, height = 0, actLine = 1, counter = 0;
-            WriteableBitmap bitmapa = new WriteableBitmap(7000, 7000, 96, 96, PixelFormats.Bgr24, null);
+            WriteableBitmap bitmapa = new WriteableBitmap(255, 255, 96, 96, PixelFormats.Bgr24, null);
             bitmapa.Lock();
 
             Int32Rect rect;
@@ -536,6 +536,7 @@ namespace GraphicEditor
                     counter++;
                 }
             }
+
             bitmapa.Unlock();
             Image image = new Image();
             image.Source = bitmapa;
