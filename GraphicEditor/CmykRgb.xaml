@@ -14,23 +14,23 @@
                         <StackPanel Margin="10, 0, 10, 10">
                             <StackPanel Orientation="Horizontal">
                                 <Label>R</Label>
-                                <TextBox TextChanged="rInput_TextChanged" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="rInput" Width="50" MaxLength="3"></TextBox>
+                                <TextBox TextChanged="rInput_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="rInput" Width="50" MaxLength="3"></TextBox>
                             </StackPanel>
-                            <Slider ValueChanged="rSlider_ValueChanged" Name="rSlider" TickFrequency="1" Minimum="1" Maximum="255"></Slider>
+                            <Slider ValueChanged="rSlider_ValueChanged" Name="rSlider" LargeChange="10" TickFrequency="1" Minimum="1" Maximum="254"></Slider>
                         </StackPanel>
                         <StackPanel Margin="10, 0, 10, 10">
                             <StackPanel Orientation="Horizontal">
                                 <Label>G</Label>
-                                <TextBox TextChanged="gInput_TextChanged" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="gInput" Width="50" MaxLength="3"></TextBox>
+                                <TextBox TextChanged="gInput_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="gInput" Width="50" MaxLength="3"></TextBox>
                             </StackPanel>
-                            <Slider ValueChanged="gSlider_ValueChanged"  Name="gSlider" TickFrequency="1" Minimum="1" Maximum="255"></Slider>
+                            <Slider ValueChanged="gSlider_ValueChanged"  Name="gSlider" LargeChange="10" TickFrequency="1" Minimum="1" Maximum="254"></Slider>
                         </StackPanel>
                         <StackPanel Margin="10, 0, 10, 0">
                             <StackPanel Orientation="Horizontal">
                                 <Label>B</Label>
-                                <TextBox TextChanged="bInput_TextChanged" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="bInput" Width="50" MaxLength="3"></TextBox>
+                                <TextBox TextChanged="bInput_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="bInput" Width="50" MaxLength="3"></TextBox>
                             </StackPanel>
-                            <Slider ValueChanged="bSlider_ValueChanged"  Name="bSlider" TickFrequency="1" Minimum="1" Maximum="255"></Slider>
+                            <Slider ValueChanged="bSlider_ValueChanged"  Name="bSlider" LargeChange="10" TickFrequency="1" Minimum="1" Maximum="254"></Slider>
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
@@ -40,33 +40,29 @@
                             <StackPanel Orientation="Horizontal">
                                 <Label>C</Label>
                                 <TextBox TextChanged="cInput_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="cInput" Width="50" MaxLength="3"></TextBox>
-                                <Label>%</Label>
                             </StackPanel>
-                            <Slider ValueChanged="cSlider_ValueChanged"  Name="cSlider" TickFrequency="0.01" Minimum="0.01" Maximum="0.99"></Slider>
+                            <Slider ValueChanged="cSlider_ValueChanged"  Name="cSlider" LargeChange="0.1" TickFrequency="0.001" Minimum="0.001" Maximum="0.999"></Slider>
                         </StackPanel>
                         <StackPanel Margin="10, 0, 10, 10">
                             <StackPanel Orientation="Horizontal">
                                 <Label>M</Label>
                                 <TextBox TextChanged="mInput_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="mInput" Width="50" MaxLength="3"></TextBox>
-                                <Label>%</Label>
                             </StackPanel>
-                            <Slider ValueChanged="mSlider_ValueChanged"  Name="mSlider" TickFrequency="0.01" Minimum="0.001" Maximum="1.0"></Slider>
+                            <Slider ValueChanged="mSlider_ValueChanged"  Name="mSlider" LargeChange="0.1" TickFrequency="0.001" Minimum="0.001" Maximum="0.999"></Slider>
                         </StackPanel>
                         <StackPanel Margin="10, 0, 10, 10">
                             <StackPanel Orientation="Horizontal">
                                 <Label>Y</Label>
                                 <TextBox TextChanged="yInput_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="yInput" Width="50" MaxLength="3"></TextBox>
-                                <Label>%</Label>
                             </StackPanel>
-                            <Slider ValueChanged="ySlider_ValueChanged"  Name="ySlider" TickFrequency="0.01" Minimum="0.001" Maximum="1.0"></Slider>
+                            <Slider ValueChanged="ySlider_ValueChanged"  Name="ySlider" LargeChange="0.1" TickFrequency="0.001" Minimum="0.001" Maximum="0.999"></Slider>
                         </StackPanel>
                         <StackPanel Margin="10, 0, 10, 0">
                             <StackPanel Orientation="Horizontal">
                                 <Label>K</Label>
                                 <TextBox TextChanged="kInput_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="kInput" Width="50" MaxLength="3"></TextBox>
-                                <Label>%</Label>
                             </StackPanel>
-                            <Slider ValueChanged="kSlider_ValueChanged"  Name="kSlider" TickFrequency="0.01" Minimum="0.001" Maximum="1.0"></Slider>
+                            <Slider ValueChanged="kSlider_ValueChanged"  Name="kSlider" LargeChange="0.1" TickFrequency="0.001" Minimum="0.001" Maximum="0.999"></Slider>
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
