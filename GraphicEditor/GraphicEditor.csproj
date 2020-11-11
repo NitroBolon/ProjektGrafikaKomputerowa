@@ -6,6 +6,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Resources\1.png" />
     <None Remove="Resources\2.png" />
@@ -20,6 +24,10 @@
     <None Remove="Resources\redo.png" />
     <None Remove="Resources\resize.png" />
     <None Remove="Resources\undo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

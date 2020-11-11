@@ -25,6 +25,14 @@
                 <MenuItem Header="_CMYK vs RGB" Click="CmykRgb_Click"></MenuItem>
                 <MenuItem Header="_HsvRgb" Click="HsvRgb_Click"></MenuItem>
             </MenuItem>
+            <MenuItem Header="_Projekt 4">
+                <MenuItem Header="_Przekształcenia punktowe" Click="Reshaping_Click"></MenuItem>
+                <MenuItem Header="_Polepszanie jakości obrazu" Click="MakingBetter_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Projekt 5">
+                <MenuItem Header="_Histogram" Click="Hist_Click"></MenuItem>
+                <MenuItem Header="_Binaryzacja" Click="Bin_Click"></MenuItem>
+            </MenuItem>
             <Label>Tryb pracy:</Label>
             <Label x:Name="ModeLabel">-</Label>
             <Button Click="LowerLevel">-5</Button>

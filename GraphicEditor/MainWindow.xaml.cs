@@ -792,5 +792,53 @@ namespace GraphicEditor
             HsvRgb parameters = new HsvRgb();
             parameters.ShowDialog();
         }
+
+        private void Reshaping_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPG Files (*.jpg)|*.jpg";
+            Reshaping wind;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                wind = new Reshaping(openFileDialog.FileName);
+                wind.ShowDialog();
+            }
+        }
+       
+        private void MakingBetter_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPG Files (*.jpg)|*.jpg";
+            Filters wind;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                wind = new Filters(openFileDialog.FileName);
+                wind.ShowDialog();
+            }
+        }
+
+        private void Hist_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPG Files (*.jpg)|*.jpg";
+            Histogram wind;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                wind = new Histogram(openFileDialog.FileName);
+                wind.ShowDialog();
+            }
+        }
+
+        private void Bin_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPG Files (*.jpg)|*.jpg";
+            Binarization wind;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                wind = new Binarization(openFileDialog.FileName);
+                wind.ShowDialog();
+            }
+        }
     }
 }

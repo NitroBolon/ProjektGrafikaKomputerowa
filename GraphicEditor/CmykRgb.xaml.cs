@@ -14,7 +14,7 @@ namespace GraphicEditor
     public partial class CmykRgb : Window
     {
         double C = 0.001, M = 0.001, Y = 0.001, K = 0.001;
-        int R = 254, G = 254, B = 254;
+        int R, G, B;
         bool editFlag = true;
         Color color;
         SolidColorBrush brush = new SolidColorBrush();
@@ -213,10 +213,10 @@ namespace GraphicEditor
             double dG = G / 255;
             double dB = B / 255;
 
-            C = (1 - dR - K) / (1 - K+0.001);
-            M = (1 - dG - K) / (1 - K + 0.001);
-            Y = (1 - dB - K) / (1 - K + 0.001);
             K = 1 - Math.Max(Math.Max(dR, dG), dB);
+            C = Math.Abs((1 - dR - K) / (1 - K + 0.001));
+            M = Math.Abs((1 - dG - K) / (1 - K + 0.001));
+            Y = Math.Abs((1 - dB - K) / (1 - K + 0.001));
         }
     }
 }

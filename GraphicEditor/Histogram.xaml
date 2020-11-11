@@ -1,0 +1,23 @@
+﻿<Window x:Class="GraphicEditor.Histogram"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicEditor"
+        mc:Ignorable="d"
+        Title="Histogram" Height="450" Width="800" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <Border Width="500" Margin="10,10,0,10" BorderThickness="2" BorderBrush="Black">
+                <Canvas Name="canvas"/>
+            </Border>
+            <GroupBox Margin="10, 10, 10, 10" Header="Parametry">
+                <StackPanel Orientation="Vertical" Width="260">
+                    <Button Margin="0,10,0,10" Click="Stretch_Click">Rozszerzenie</Button>
+                    <Button Margin="0,0,0,10" Click="Equalize_Click">Wyrównanie</Button>
+                    <Button Margin="0,0,0,10" Click="Restore_Click">Resetuj</Button>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Window>
