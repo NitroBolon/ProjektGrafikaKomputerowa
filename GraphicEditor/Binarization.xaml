@@ -17,7 +17,7 @@
                     <TextBox Name="input2" Margin="0,10,0,10" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
                     <Button Margin="0,0,0,10" Click="Bin_Click">Binaryzacja</Button>
                     <Button Margin="0,0,0,10" Click="BinD_Click">Binaryzacja dwuprogowa</Button>
-                    <Button Margin="0,0,0,10" Click="O1_Click">cos1</Button>
+                    <Button Margin="0,0,0,10" Click="O1_Click">Procentowa selekcja czarnego</Button>
                     <Button Margin="0,0,0,10" Click="O2_Click">cos2</Button>
                     <Button Margin="0,0,0,10" Click="Restore_Click">Resetuj</Button>
                 </StackPanel>

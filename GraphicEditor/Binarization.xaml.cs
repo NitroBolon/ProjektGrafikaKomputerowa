@@ -152,7 +152,90 @@ namespace GraphicEditor
 
         private void O1_Click(object sender, RoutedEventArgs e)
         {
+            int width = editedBitmap.PixelWidth;
+            int height = editedBitmap.PixelHeight;
+            int stride = editedBitmap.BackBufferStride;
+            int bytesPerPixel = (editedBitmap.Format.BitsPerPixel + 7) / 8;
+            byte[] imgdata = new byte[width * height * bytesPerPixel];
+            int pixels = width * height;
+            int val;
+            int counter = 0;
+            if(!Int32.TryParse(input.Text, out val))
+            {
+                return;
+            }
+            int numOfBlacks = (int)(((float)val/(float)100)*(float)pixels);
+            List<int> lista = new List<int>();
+            for(int i=0; i<256; i++)
+            {
+                lista.Add(0);
+            }
+            editedBitmap.Lock();
 
+            unsafe
+            {
+                byte* pImgData = (byte*)editedBitmap.BackBuffer;
+
+                for (int row = 0; row < height; row++)
+                {
+                    for (int col = 0; col < width; col++)
+                    {
+                        try
+                        {
+                            byte gray = (byte)(((pImgData[row * stride + col * 4 + 1] + pImgData[row * stride + col * 4 + 2] + pImgData[row * stride + col * 4 + 0]) / 3) % 255);
+
+                            lista[gray]++;
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Unable to proceed action");
+                        }
+                    }
+                }
+                int i = 0;
+                while (counter < numOfBlacks)
+                {
+                    counter += lista[i];
+                    i++;
+                }
+
+                for (int row = 0; row < height; row++)
+                {
+                    for (int col = 0; col < width; col++)
+                    {
+                        try
+                        {
+                            byte gray = (byte)(((pImgData[row * stride + col * 4 + 1] + pImgData[row * stride + col * 4 + 2] + pImgData[row * stride + col * 4 + 0]) / 3) % 255);
+
+                            if (gray >= i)
+                            {
+                                imgdata[row * stride + col * 4 + 0] = 255;
+                                imgdata[row * stride + col * 4 + 1] = 255;
+                                imgdata[row * stride + col * 4 + 2] = 255;
+                                imgdata[row * stride + col * 4 + 3] = (byte)255;
+                            } else
+                            {
+                                imgdata[row * stride + col * 4 + 0] = 0;
+                                imgdata[row * stride + col * 4 + 1] = 0;
+                                imgdata[row * stride + col * 4 + 2] = 0;
+                                imgdata[row * stride + col * 4 + 3] = (byte)255;
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Unable to proceed action");
+                        }
+                    }
+                }
+            }
+            var gradient = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, imgdata, stride);
+            editedBitmap.WritePixels(
+                new Int32Rect(0, 0, width, height),
+                imgdata, stride, 0);
+            editedBitmap.Unlock();
+            image = new System.Windows.Controls.Image();
+            image.Source = editedBitmap;
+            canvas.Children.Add(image);
         }
 
         private void O2_Click(object sender, RoutedEventArgs e)

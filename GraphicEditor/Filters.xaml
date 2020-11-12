@@ -9,15 +9,15 @@
     <Grid>
         <StackPanel Orientation="Horizontal">
             <Border Width="500" Margin="10,10,0,10" BorderThickness="2" BorderBrush="Black">
-                <Canvas Name="canvas"/>
+                <Image Name="canvas"/>
             </Border>
             <GroupBox Margin="10, 10, 10, 10" Header="Parametry">
                 <StackPanel Orientation="Vertical" Width="260">
-                    <Button Margin="0,0,0,10" Click="F1_Click">Filtr uśredniający</Button>
-                    <Button Margin="0,0,0,10" Click="F2_Click">Filtr medianowy</Button>
-                    <Button Margin="0,0,0,10" Click="F3_Click">Sobel</Button>
-                    <Button Margin="0,0,0,10" Click="F4_Click">Filtr górnoprzepustowy</Button>
-                    <Button Margin="0,0,0,10" Click="F5_Click">Rozmycie gaussowskie</Button>
+                    <Button Margin="0,0,0,10" Click="Mi_Click">Filtr uśredniający</Button>
+                    <Button Margin="0,0,0,10" Click="Me_Click">Filtr medianowy</Button>
+                    <Button Margin="0,0,0,10" Click="So_Click">Sobel</Button>
+                    <Button Margin="0,0,0,10" Click="Gp_Click">Filtr górnoprzepustowy</Button>
+                    <Button Margin="0,0,0,10" Click="Ga_Click">Rozmycie gaussowskie</Button>
                     <Button Margin="0,0,0,10" Click="R_Click">Reset</Button>
                 </StackPanel>
             </GroupBox>

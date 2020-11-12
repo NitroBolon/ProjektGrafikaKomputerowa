@@ -333,10 +333,12 @@ namespace GraphicEditor
 
         private void Restore_Click(object sender, RoutedEventArgs e)
         {
+            BitmapImage bitmap = new BitmapImage(new Uri(filePath, UriKind.Relative));
+            writeableBitmap = new WriteableBitmap(bitmap);
             editedBitmap = writeableBitmap;
-            System.Windows.Controls.Image imagen = new System.Windows.Controls.Image();
-            imagen.Source = editedBitmap;
-            canvas.Children.Add(imagen);
+
+            image.Source = editedBitmap;
+            canvas.Children.Add(image);
         }
 
         private Bitmap AdjustBrightness(System.Drawing.Image image, float brightness)
