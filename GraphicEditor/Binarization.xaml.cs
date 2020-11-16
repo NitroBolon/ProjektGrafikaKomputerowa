@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,16 +21,18 @@ namespace GraphicEditor
     public partial class Binarization : Window
     {
         WriteableBitmap writeableBitmap, editedBitmap;
-        Image image = new Image();
+        System.Windows.Controls.Image image = new System.Windows.Controls.Image();
+        string file;
+        BitmapImage bitmap;
 
         public Binarization(string filePath)
         {
             InitializeComponent();
 
-            BitmapImage bitmap = new BitmapImage(new Uri(filePath, UriKind.Relative));
+            bitmap = new BitmapImage(new Uri(filePath, UriKind.Relative));
             writeableBitmap = new WriteableBitmap(bitmap);
             editedBitmap = writeableBitmap;
-
+            file = filePath;
             image.Source = editedBitmap;
             canvas.Children.Add(image);
         }
@@ -81,7 +86,7 @@ namespace GraphicEditor
                     new Int32Rect(0, 0, width, height),
                     imgdata, stride, 0);
                 editedBitmap.Unlock();
-                image = new Image();
+                image = new System.Windows.Controls.Image();
                 image.Source = editedBitmap;
                 canvas.Children.Add(image);
             }
@@ -144,7 +149,7 @@ namespace GraphicEditor
                     new Int32Rect(0, 0, width, height),
                     imgdata, stride, 0);
                 editedBitmap.Unlock();
-                image = new Image();
+                image = new System.Windows.Controls.Image();
                 image.Source = editedBitmap;
                 canvas.Children.Add(image);
             }
@@ -240,14 +245,77 @@ namespace GraphicEditor
 
         private void O2_Click(object sender, RoutedEventArgs e)
         {
+            Bitmap curBitmap = new Bitmap(file);
+            if (curBitmap != null)
+            {
+                int iR = 0;
+                int iG = 0;
+                int iB = 0;
 
+                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, curBitmap.Width, curBitmap.Height);
+                System.Drawing.Imaging.BitmapData bmpData =
+                    curBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                    curBitmap.PixelFormat);
+
+                IntPtr ptr = bmpData.Scan0;
+
+                int bytes = Math.Abs(bmpData.Stride) * curBitmap.Height;
+                byte[] rgbValues = new byte[bytes];
+
+                System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+                for (int counter = 0; counter < rgbValues.Length-5; counter += 3)
+                {
+                    iR = rgbValues[counter + 2];
+                    iG = rgbValues[counter + 1];
+                    iB = rgbValues[counter + 0];
+                    if ((iR + iG + iB) / 3 > 100)
+                    {
+                        rgbValues[counter + 2] = 255;
+                        rgbValues[counter + 1] = 255;
+                        rgbValues[counter + 0] = 255;
+                    }
+                    else
+                    {
+                        rgbValues[counter + 2] = 0;
+                        rgbValues[counter + 1] = 0;
+                        rgbValues[counter + 0] = 0;
+                    }
+                }
+
+                System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
+
+                curBitmap.UnlockBits(bmpData);
+
+                BitmapImage bitmapImage = BitmapToImageSource(curBitmap);
+                var canvass = new System.Windows.Controls.Image();
+                canvass.Source = bitmapImage;
+                canvas.Children.Add(canvass);
+            }
+        }
+
+        public static BitmapImage BitmapToImageSource(Bitmap bitmap)
+        {
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;
+                BitmapImage bitmapimage = new BitmapImage();
+                bitmapimage.BeginInit();
+                bitmapimage.StreamSource = memory;
+                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapimage.EndInit();
+
+                return bitmapimage;
+            }
         }
 
         private void Restore_Click(object sender, RoutedEventArgs e)
         {
-            editedBitmap = writeableBitmap;
-            Image imagen = new Image();
-            imagen.Source = editedBitmap;
+            bitmap = new BitmapImage(new Uri(file, UriKind.Relative));
+            writeableBitmap = new WriteableBitmap(bitmap);
+            System.Windows.Controls.Image imagen = new System.Windows.Controls.Image();
+            imagen.Source = writeableBitmap;
             canvas.Children.Add(imagen);
         }
     }
