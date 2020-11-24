@@ -840,5 +840,11 @@ namespace GraphicEditor
                 wind.ShowDialog();
             }
         }
+
+        private void Bezier_Click(object sender, RoutedEventArgs e)
+        {
+            Bezier wind = new Bezier();
+            wind.ShowDialog();
+        }
     }
 }
