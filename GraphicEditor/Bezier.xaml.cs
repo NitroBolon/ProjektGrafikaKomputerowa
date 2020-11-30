@@ -55,7 +55,7 @@ namespace GraphicEditor
             }
             else
             {
-                if (step <= range)
+                if (step < range)
                 {
                     punkty.Add(new Point(System.Convert.ToDouble(x.Text), System.Convert.ToDouble(y.Text)));
                     step++;
@@ -64,6 +64,7 @@ namespace GraphicEditor
                 {
                     punkty.Add(new Point(System.Convert.ToDouble(x.Text), System.Convert.ToDouble(y.Text)));
                     pointsy.Add(punkty);
+                    RemoveFromCanva(pointsy[indeksKrzywej], canva);
                     drawCasteljau(punkty, canva);
                     foreach (var point in punkty)
                     {
@@ -80,18 +81,13 @@ namespace GraphicEditor
                     }
                     step = 1;
                     punkty = new List<Point>();
-                    RemoveFromCanva(pointsy[indeksKrzywej], canva);
                 }
             }
         }
 
         private void RemoveFromCanva(List<Point> points, Canvas canva)
         {
-            var lines = ListOfLines(points);
-            foreach (var line in lines)
-            {
-                canva.Children.Clear();
-            }
+            canva.Children.Clear();
         }
 
         private void canva_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

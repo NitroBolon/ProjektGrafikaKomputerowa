@@ -1,0 +1,44 @@
+﻿<Window x:Class="GraphicEditor.NewReshaping"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicEditor"
+        mc:Ignorable="d"
+        Title="NewReshaping" Height="500" Width="910">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <Border BorderBrush="Black" Margin="10,10,0,10" Height="440" Width="700" BorderThickness="2">
+                <Canvas MouseRightButtonDown="canva_MouseRightButtonDown" MouseMove="canva_MouseMove"  x:Name="canva" ClipToBounds="true" Background="White" MouseLeftButtonDown="canva_MouseLeftButtonDown"/>
+            </Border>
+            <GroupBox Header="Parametry" Margin="10,10,10,10" Width="170">
+                <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+                    <RadioButton Margin="0,10,0,0" IsChecked="True" Name="draw">Rysuj</RadioButton>
+                    <RadioButton Margin="0,10,0,0" Name="move">Przesunięcie</RadioButton>
+                    <RadioButton Margin="0,10,0,0" Name="rotate">Obrót</RadioButton>
+                    <RadioButton Margin="0,10,0,0" Name="scaleU">Skalowanie UP</RadioButton>
+                    <RadioButton Margin="0,10,0,0" Name="scaleD">Skalowanie DOWN</RadioButton>
+                    <RadioButton Margin="0,10,0,0" Name="setter">SETTER</RadioButton>
+                    <Label>Parametry przekształceń</Label>
+                    <Label>Wektor/punkt</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="50" Name="x" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                        <TextBox Width="50" Name="y" Margin="10,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Margin="20,0,0,0">x</Label>
+                        <Label Margin="45,0,0,0">y</Label>
+                    </StackPanel>
+                    <Label>Kąt/współczynnik</Label>
+                    <TextBox Width="50" Name="w" Margin="0,0,0,10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                    <Button Click="Execute_Click">Wykonaj</Button>
+                    <TextBox Width="50" Name="s" Margin="0,10,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="s_TextChanged"></TextBox>
+                    <Label HorizontalContentAlignment="Center">Stopień</Label>
+                    <Button Click="Read_Click">Wczytaj</Button>
+                    <Button Click="Save_Click">Zapisz</Button>
+                    <Label HorizontalContentAlignment="Center" Name="par"></Label>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Window>

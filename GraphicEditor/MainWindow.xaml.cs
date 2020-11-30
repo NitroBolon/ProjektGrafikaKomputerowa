@@ -846,5 +846,11 @@ namespace GraphicEditor
             Bezier wind = new Bezier();
             wind.ShowDialog();
         }
+
+        private void Resh_Click(object sender, RoutedEventArgs e)
+        {
+            NewReshaping wind = new NewReshaping();
+            wind.ShowDialog();
+        }
     }
 }
