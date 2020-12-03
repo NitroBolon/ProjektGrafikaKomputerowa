@@ -852,5 +852,29 @@ namespace GraphicEditor
             NewReshaping wind = new NewReshaping();
             wind.ShowDialog();
         }
+
+        private void Morf_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPG Files (*.jpg)|*.jpg";
+            Morfology wind;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                wind = new Morfology(openFileDialog.FileName);
+                wind.ShowDialog();
+            }
+        }
+
+        private void Green_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPG Files (*.jpg)|*.jpg";
+            Greens wind;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                wind = new Greens(openFileDialog.FileName);
+                wind.ShowDialog();
+            }
+        }
     }
 }

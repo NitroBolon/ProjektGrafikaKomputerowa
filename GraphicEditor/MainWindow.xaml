@@ -31,10 +31,10 @@
                 <MenuItem Header="_Histogram" Click="Hist_Click"></MenuItem>
                 <MenuItem Header="_Binaryzacja" Click="Bin_Click"></MenuItem>
                 <MenuItem Header="_Krzywa Bezier" Click="Bezier_Click"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="_Projekt 7">
                 <MenuItem Header="_Przekształcenia" Click="Resh_Click"></MenuItem>
             </MenuItem>
+            <MenuItem Header="_Projekt 8" Click="Morf_Click"/>
+            <MenuItem Header="_Projekt 9" Click="Green_Click"/>
             <Label>Tryb pracy:</Label>
             <Label x:Name="ModeLabel">-</Label>
             <Button Click="LowerLevel">-5</Button>
