@@ -91,8 +91,55 @@ namespace GraphicEditor
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bitmapImage = BitmapToImageSource(Green(BitmapImage2Bitmap(bitmapImage)));
-            canva.Source = bitmapImage;
+            if(naive.IsChecked == true)
+            {
+                var bitmapImage2 = BitmapToImageSource(Green(BitmapImage2Bitmap(bitmapImage)));
+                canva.Source = bitmapImage2;
+            }
+            else
+            {
+                var bitmapImage2 = BitmapToImageSource(GreenHSV(BitmapImage2Bitmap(bitmapImage)));
+                canva.Source = bitmapImage2;
+            }
+        }
+
+        public Bitmap GreenHSV(Bitmap bmpInput)
+        {
+            Bitmap temp = new Bitmap(bmpInput.Width, bmpInput.Height);
+            ColorsKwant kwant = new ColorsKwant();
+
+            int licznik = 0;
+
+            for (int j = 0; j < bmpInput.Height; j++)
+            {
+                for (int i = 0; i < bmpInput.Width; i++)
+                {
+                    System.Drawing.Color color = System.Drawing.Color.FromArgb(bmpInput.GetPixel(i, j).R, bmpInput.GetPixel(i, j).G, bmpInput.GetPixel(i, j).B);
+                    float hue = color.GetHue();
+
+                    if(hue>60 && hue < 180)
+                    {
+                        temp.SetPixel(i, j, System.Drawing.Color.FromArgb(
+                            0,
+                            255,
+                            0
+                        ));
+                        licznik++;
+                    } 
+                    else
+                    {
+                        temp.SetPixel(i, j, System.Drawing.Color.FromArgb(
+                            bmpInput.GetPixel(i, j).R,
+                            bmpInput.GetPixel(i, j).G,
+                            bmpInput.GetPixel(i, j).B
+                        ));
+                    }
+                }
+            }
+
+            res.Content = $"{(double)licznik / (bmpInput.Width * bmpInput.Height) * 100}%";
+
+            return temp;
         }
     }
 }

@@ -35,26 +35,26 @@ namespace GraphicEditor
         {
             if (dil.IsChecked == true)
             {
-
+                var bitmapka = Dilation(baseImage);
+                canva.Source = BitmapToImageSource(bitmapka);
             }
             else if (ero.IsChecked == true)
             {
-
+                var bitmapka = Erosion(BitmapImage2Bitmap(baseImage));
+                canva.Source = BitmapToImageSource(bitmapka);
             }
             else if (opn.IsChecked == true)
             {
-
+                var bitmapka = Openness(BitmapImage2Bitmap(baseImage));
+                canva.Source = BitmapToImageSource(bitmapka);
             }
             else if (cls.IsChecked == true)
             {
-
-            }
-            else if (hom.IsChecked == true)
-            {
-
+                var bitmapka = Closer(BitmapImage2Bitmap(baseImage));
+                canva.Source = BitmapToImageSource(bitmapka);
             }
         }
-
+        
         public Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
         {
             using (MemoryStream outStream = new MemoryStream())
@@ -68,7 +68,7 @@ namespace GraphicEditor
             }
         }
 
-        public static BitmapImage BitmapToImageSource(Bitmap bitmap)
+        public BitmapImage BitmapToImageSource(Bitmap bitmap)
         {
             using (MemoryStream memory = new MemoryStream())
             {
@@ -84,133 +84,135 @@ namespace GraphicEditor
             }
         }
 
-        public Bitmap Dilation(BitmapImage bitmapImage)
+        public Bitmap Dilation(BitmapImage bitmapa)
         {
-            byte[,] sele = new byte[3, 3];
-            sele[0, 0] = (byte)1; sele[0, 1] = (byte)1; sele[0, 2] = (byte)1;
-            sele[1, 0] = (byte)1; sele[1, 1] = (byte)1; sele[1, 2] = (byte)1;
-            sele[2, 0] = (byte)1; sele[2, 1] = (byte)1; sele[2, 2] = (byte)1;
-            Bitmap bmpimg = BitmapImage2Bitmap(bitmapImage);
+            byte[,] sele = {
+                { 1, 1, 1},
+                { 1, 1, 1},
+                { 1, 1, 1}
+            };
+
+            Bitmap bmpimg = BitmapImage2Bitmap(bitmapa);
             Bitmap tempbmp = (Bitmap)bmpimg.Clone();
-            BitmapData data2 = tempbmp.LockBits(new System.Drawing.Rectangle(0, 0, tempbmp.Width, tempbmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            BitmapData data = bmpimg.LockBits(new System.Drawing.Rectangle(0, 0, bmpimg.Width, bmpimg.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            byte[,] sElement = sele;
+            BitmapData help2 = tempbmp.LockBits(new System.Drawing.Rectangle(0, 0, tempbmp.Width, tempbmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            BitmapData help = bmpimg.LockBits(new System.Drawing.Rectangle(0, 0, bmpimg.Width, bmpimg.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             unsafe
             {
-                byte* ptr = (byte*)data.Scan0;
-                byte* tptr = (byte*)data2.Scan0;
+                byte* wsk = (byte*)help.Scan0;
+                byte* tmpWsk = (byte*)help2.Scan0;
 
-                ptr += data.Stride + 3;
-                tptr += data.Stride + 3;
+                wsk += help.Stride + 3;
+                tmpWsk += help.Stride + 3;
 
-                int remain = data.Stride - data.Width * 3;
+                int rest = help.Stride - help.Width * 3;
 
-                for (int i = 1; i < data.Height - 1; i++)
+                for (int i = 1; i < help.Height - 1; i++)
                 {
-                    for (int j = 1; j < data.Width - 1; j++)
+                    for (int j = 1; j < help.Width - 1; j++)
                     {
-                        if (ptr[0] == 255)
+                        if (wsk[0] == 255)
                         {
-                            byte* temp = tptr - data.Stride - 3;
+                            byte* tmp = tmpWsk - help.Stride - 3;
 
                             for (int k = 0; k < 3; k++)
                             {
                                 for (int l = 0; l < 3; l++)
                                 {
-                                    temp[data.Stride * k + l * 3] = temp[data.Stride * k + l * 3 + 1] = temp[data.Stride * k + l * 3 + 2] = (byte)(sElement[k, l] * 255);
+                                    tmp[help.Stride * k + l * 3] = tmp[help.Stride * k + l * 3 + 1] = tmp[help.Stride * k + l * 3 + 2] = (byte)(sele[k, l] * 255);
                                 }
                             }
                         }
-
-                        ptr += 3;
-                        tptr += 3;
+                        wsk += 3;
+                        tmpWsk += 3;
                     }
-                    ptr += remain + 6;
-                    tptr += remain + 6;
+                    wsk += rest + 6;
+                    tmpWsk += rest + 6;
                 }
             }
 
-            bmpimg.UnlockBits(data);
-            tempbmp.UnlockBits(data2);
+            bmpimg.UnlockBits(help);
+            tempbmp.UnlockBits(help2);
 
             bmpimg = (Bitmap)tempbmp.Clone();
             return bmpimg;
         }
 
-        private Bitmap Erosion(Bitmap srcImage)
+        private Bitmap Erosion(Bitmap bitmapa)
         {
-            int width = srcImage.Width;
-            int height = srcImage.Height;
-
-            System.Drawing.Rectangle canvas = new System.Drawing.Rectangle(0, 0, width, height);
-            BitmapData srcData = srcImage.LockBits(canvas, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            int bytes = srcData.Stride * srcData.Height;
-            byte[] pixelBuffer = new byte[bytes];
-            byte[] resultBuffer = new byte[bytes];
-
-            Marshal.Copy(srcData.Scan0, pixelBuffer, 0, bytes);
-            srcImage.UnlockBits(srcData);
-
-
+            int level = 3;
+            byte[,] sele = {
+                { 1, 1, 1},
+                { 1, 1, 1},
+                { 1, 1, 1}
+            };
+            
+            int kernel = (level - 1) / 2;
             float rgb;
+
+            System.Drawing.Rectangle canvas = new System.Drawing.Rectangle(0, 0, bitmapa.Width, bitmapa.Height);
+            BitmapData srcData = bitmapa.LockBits(canvas, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            int bytes = srcData.Stride * srcData.Height;
+            byte[] pixels = new byte[bytes];
+            byte[] res = new byte[bytes];
+
+            Marshal.Copy(srcData.Scan0, pixels, 0, bytes);
+            bitmapa.UnlockBits(srcData);
+            
             for (int i = 0; i < bytes; i += 4)
             {
-                rgb = pixelBuffer[i] * .071f;
-                rgb += pixelBuffer[i + 1] * .71f;
-                rgb += pixelBuffer[i + 2] * .21f;
-                pixelBuffer[i] = (byte)rgb;
-                pixelBuffer[i + 1] = pixelBuffer[i];
-                pixelBuffer[i + 2] = pixelBuffer[i];
-                pixelBuffer[i + 3] = 255;
+                rgb = pixels[i] * .071f;
+                rgb += pixels[i + 1] * .71f;
+                rgb += pixels[i + 2] * .21f;
+                pixels[i] = (byte)rgb;
+                pixels[i + 1] = pixels[i];
+                pixels[i + 2] = pixels[i];
+                pixels[i + 3] = 255;
             }
 
-            byte[,] kernel = new byte[3, 3];
-            kernel[0, 0] = (byte)1; kernel[0, 1] = (byte)1; kernel[0, 2] = (byte)1;
-            kernel[1, 0] = (byte)1; kernel[1, 1] = (byte)1; kernel[1, 2] = (byte)1;
-            kernel[2, 0] = (byte)1; kernel[2, 1] = (byte)1; kernel[2, 2] = (byte)1;
-
-            int kernelSize = 3;
-            int kernelOffset = (kernelSize - 1) / 2;
-            int calcOffset = 0;
-            int byteOffset = 0;
-
-            for (int y = kernelOffset; y < height - kernelOffset; y++)
+            for (int y = kernel; y < bitmapa.Height - kernel; y++)
             {
-                for (int x = kernelOffset; x < width - kernelOffset; x++)
+                for (int x = kernel; x < bitmapa.Width - kernel; x++)
                 {
                     byte value = 255;
-                    byteOffset = y * srcData.Stride + x * 4;
-                    for (int ykernel = -kernelOffset; ykernel <= kernelOffset; ykernel++)
+                    for (int yy = -kernel; yy <= kernel; yy++)
                     {
-                        for (int xkernel = -kernelOffset; xkernel <= kernelOffset; xkernel++)
+                        for (int xx = -kernel; xx <= kernel; xx++)
                         {
-                            if (kernel[ykernel + kernelOffset, xkernel + kernelOffset] == 1)
+                            if (sele[yy + kernel, xx + kernel] == 1)
                             {
-                                calcOffset = byteOffset + ykernel * srcData.Stride + xkernel * 4;
-                                value = Math.Min(value, pixelBuffer[calcOffset]);
-                            }
-                            else
-                            {
-                                continue;
+                                value = Math.Min(value, pixels[(y * srcData.Stride + x * 4) + yy * srcData.Stride + xx * 4]);
                             }
                         }
                     }
-                    resultBuffer[byteOffset] = value;
-                    resultBuffer[byteOffset + 1] = value;
-                    resultBuffer[byteOffset + 2] = value;
-                    resultBuffer[byteOffset + 3] = 255;
+                    res[y * srcData.Stride + x * 4] = value;
+                    res[y * srcData.Stride + x * 4 + 1] = value;
+                    res[y * srcData.Stride + x * 4 + 2] = value;
+                    res[y * srcData.Stride + x * 4 + 3] = 255;
                 }
             }
 
-            Bitmap result = new Bitmap(width, height);
-            BitmapData resultData = result.LockBits(canvas, ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Marshal.Copy(resultBuffer, 0, resultData.Scan0, bytes);
-            result.UnlockBits(resultData);
+            Bitmap result = new Bitmap(bitmapa.Width, bitmapa.Height);
+            BitmapData resultBitmapa = result.LockBits(canvas, ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Marshal.Copy(res, 0, resultBitmapa.Scan0, bytes);
+            result.UnlockBits(resultBitmapa);
             return result;
-        }   
+        }
 
+        public Bitmap Openness(Bitmap bitmapa)
+        {
+            Bitmap res = Erosion(bitmapa);
+            res = Dilation(BitmapToImageSource(res));
 
+            return res;
+        }
+
+        public Bitmap Closer(Bitmap bitmapa)
+        {
+            Bitmap res = Dilation(BitmapToImageSource(bitmapa));
+            res = Erosion(res);
+
+            return res;
+        }
     }
 }

@@ -13,6 +13,8 @@
             </Border>
             <GroupBox Header="Wynik" Margin="10,10,10,10" Width="170">
                 <StackPanel Orientation="Vertical" Margin="0,100,0,0">
+                    <RadioButton Name="naive">Naiwna</RadioButton>
+                    <RadioButton Name="hsv">HSV</RadioButton>
                     <Label Name="res" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
                     <Label Margin="0,10,0,0">Tereny zielone procentowo</Label>
                     <Button Click="Button_Click">Do it</Button>
