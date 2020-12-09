@@ -41,16 +41,21 @@ namespace GraphicEditor
                 for (int i = 0; i < bmpInput.Width; i++)
                 {
                     Kolor x = kwant.findClosest(bmpInput.GetPixel(i,j).R, bmpInput.GetPixel(i, j).G, bmpInput.GetPixel(i, j).B);
-
-                    temp.SetPixel(i, j, System.Drawing.Color.FromArgb(
+                    if (x.nazwa == "zielony")
+                    {
+                        licznik++;
+                        temp.SetPixel(i, j, System.Drawing.Color.FromArgb(
                         x.R,
                         x.G,
                         x.B
                     ));
-
-                    if(x.nazwa == "zielony")
+                    } else
                     {
-                        licznik++;
+                        temp.SetPixel(i, j, System.Drawing.Color.FromArgb(
+                        bmpInput.GetPixel(i, j).R,
+                        bmpInput.GetPixel(i, j).G,
+                        bmpInput.GetPixel(i, j).B
+                    ));
                     }
                 }
             }
