@@ -140,14 +140,11 @@ namespace GraphicEditor
 
         private Bitmap Erosion(Bitmap bitmapa)
         {
-            int level = 3;
             byte[,] sele = {
                 { 1, 1, 1},
                 { 1, 1, 1},
                 { 1, 1, 1}
             };
-            
-            int kernel = (level - 1) / 2;
             float rgb;
 
             System.Drawing.Rectangle canvas = new System.Drawing.Rectangle(0, 0, bitmapa.Width, bitmapa.Height);
@@ -170,16 +167,16 @@ namespace GraphicEditor
                 pixels[i + 3] = 255;
             }
 
-            for (int y = kernel; y < bitmapa.Height - kernel; y++)
+            for (int y = 1; y < bitmapa.Height - 1; y++)
             {
-                for (int x = kernel; x < bitmapa.Width - kernel; x++)
+                for (int x = 1; x < bitmapa.Width - 1; x++)
                 {
                     byte value = 255;
-                    for (int yy = -kernel; yy <= kernel; yy++)
+                    for (int yy = -1; yy <= 1; yy++)
                     {
-                        for (int xx = -kernel; xx <= kernel; xx++)
+                        for (int xx = -1; xx <= 1; xx++)
                         {
-                            if (sele[yy + kernel, xx + kernel] == 1)
+                            if (sele[yy + 1, xx + 1] == 1)
                             {
                                 value = Math.Min(value, pixels[(y * srcData.Stride + x * 4) + yy * srcData.Stride + xx * 4]);
                             }

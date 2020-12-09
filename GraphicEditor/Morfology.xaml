@@ -17,6 +17,7 @@
                     <RadioButton Margin="0,10,0,0" Name="ero">Erozja</RadioButton>
                     <RadioButton Margin="0,10,0,0" Name="opn">Otwarcie</RadioButton>
                     <RadioButton Margin="0,10,0,0" Name="cls">Domknięcie</RadioButton>
+                    <RadioButton Margin="0,10,0,0" Name="ham">Hit-or-miss</RadioButton>
                     <Button Click="Button_Click">Wykonaj</Button>
                 </StackPanel>
             </GroupBox>
